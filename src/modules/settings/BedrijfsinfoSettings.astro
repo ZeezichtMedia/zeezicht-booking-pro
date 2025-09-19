@@ -1,0 +1,78 @@
+---
+/**
+ * Bedrijfsinfo Settings Component
+ * Handles company information settings
+ */
+---
+
+<!-- Bedrijfsinfo Tab Content -->
+<div id="content-bedrijfsinfo" class="settings-content">
+	<div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
+	<div class="flex items-center justify-between mb-4">
+		<h3 class="text-xl font-semibold dark:text-white">Bedrijfsinformatie</h3>
+		<button type="button" onclick="saveBedrijfsinfo()" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+			Opslaan
+		</button>
+	</div>
+	
+	<form id="bedrijfsinfo-form" class="space-y-6">
+		<!-- Basis Bedrijfsgegevens -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div>
+				<label for="bedrijf-naam" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bedrijfsnaam *</label>
+				<input type="text" id="bedrijf-naam" name="bedrijf_naam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Zee-zicht B&B" required>
+			</div>
+			<div>
+				<label for="business-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type bedrijf *</label>
+				<select id="business-type" name="business_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+					<option value="">Selecteer type...</option>
+					<option value="bnb">Bed & Breakfast</option>
+					<option value="minicamping">Minicamping</option>
+					<option value="camping">Camping</option>
+					<option value="hotel">Hotel</option>
+					<option value="vakantiepark">Vakantiepark</option>
+					<option value="glamping">Glamping</option>
+					<option value="hostel">Hostel</option>
+				</select>
+				<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Bepaalt automatisch de URL structuur van je website</p>
+			</div>
+			<div>
+				<label for="contact-email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Email *</label>
+				<input type="email" id="contact-email" name="contact_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="info@zee-zicht.nl" required>
+			</div>
+			<div>
+				<label for="bedrijf-telefoon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefoonnummer</label>
+				<input type="tel" id="bedrijf-telefoon" name="bedrijf_telefoon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="+31 6 12345678">
+			</div>
+		</div>
+
+		<!-- Adresgegevens -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div>
+				<label for="bedrijf-adres" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Adres</label>
+				<input type="text" id="bedrijf-adres" name="bedrijf_adres" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Strandweg 123, 1234 AB Zee-zicht">
+			</div>
+			<div>
+				<label for="website-url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Website URL</label>
+				<input type="url" id="website-url" name="website_url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="https://jouwdomein.nl">
+				<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">De URL waar je WordPress website draait</p>
+			</div>
+		</div>
+
+		<!-- Beschrijving -->
+		<div>
+			<label for="bedrijf-beschrijving" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bedrijfsbeschrijving</label>
+			<textarea id="bedrijf-beschrijving" name="bedrijf_beschrijving" rows="4" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Korte beschrijving van je bedrijf..."></textarea>
+		</div>
+
+		<!-- URL Preview -->
+		<div id="url-preview" class="hidden p-4 bg-blue-50 border border-blue-200 rounded-lg dark:bg-blue-900/20 dark:border-blue-800">
+			<h4 class="text-sm font-medium text-blue-900 dark:text-blue-300 mb-2">Website URL Structuur Preview:</h4>
+			<div class="text-sm text-blue-700 dark:text-blue-400 space-y-1">
+				<div><strong>Accommodaties:</strong> <span id="preview-accommodations-url"></span></div>
+				<div><strong>Reserveren:</strong> <span id="preview-booking-url"></span></div>
+			</div>
+		</div>
+	</form>
+	</div>
+</div>

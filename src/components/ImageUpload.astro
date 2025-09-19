@@ -1,0 +1,374 @@
+---
+/**
+ * Image Upload Component
+ * Modern drag & drop image uploader with gallery
+ */
+interface Props {
+    accommodationId?: string;
+    existingImages?: string[];
+    maxImages?: number;
+}
+
+const { accommodationId = '', existingImages = [], maxImages = 10 } = Astro.props;
+---
+
+<div class="image-upload-container" data-accommodation-id={accommodationId}>
+    <!-- Upload Area -->
+    <div class="upload-area border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors cursor-pointer" id="uploadArea">
+        <div class="upload-content">
+            <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Upload foto's</h3>
+            <p class="text-gray-600 mb-4">Sleep foto's hierheen of klik om te selecteren</p>
+            <button type="button" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                Selecteer foto's
+            </button>
+            <p class="text-sm text-gray-500 mt-2">PNG, JPG, WEBP tot 5MB per foto</p>
+        </div>
+    </div>
+
+    <!-- Hidden File Input -->
+    <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+
+    <!-- Image Gallery -->
+    <div class="image-gallery mt-6" id="imageGallery">
+        <h4 class="text-lg font-semibold text-gray-900 mb-4">Foto galerij</h4>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="galleryGrid">
+            <!-- Existing images will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Upload Progress -->
+    <div class="upload-progress hidden mt-4" id="uploadProgress">
+        <div class="bg-gray-200 rounded-full h-2">
+            <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%" id="progressBar"></div>
+        </div>
+        <p class="text-sm text-gray-600 mt-2" id="progressText">Uploading...</p>
+    </div>
+</div>
+
+<style>
+.upload-area.dragover {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+}
+
+.image-item {
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-color: #f3f4f6;
+    aspect-ratio: 1;
+}
+
+.image-item:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+.image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-item .overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.image-item:hover .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.image-item .actions {
+    opacity: 0;
+    display: flex;
+    gap: 0.5rem;
+    transition: opacity 0.2s ease;
+}
+
+.image-item:hover .actions {
+    opacity: 1;
+}
+
+.image-item .actions button {
+    background-color: white;
+    color: #374151;
+    padding: 0.5rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.image-item .actions button:hover {
+    background-color: #f3f4f6;
+}
+
+.image-item.primary {
+    ring: 4px solid #3b82f6;
+}
+
+.image-item.primary::after {
+    content: 'Hoofdfoto';
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background-color: #2563eb;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+</style>
+
+<script>
+class ImageUploader {
+    constructor(container) {
+        this.container = container;
+        this.accommodationId = container.dataset.accommodationId;
+        this.maxImages = parseInt(container.dataset.maxImages) || 10;
+        this.images = [];
+        
+        this.uploadArea = container.querySelector('#uploadArea');
+        this.fileInput = container.querySelector('#fileInput');
+        this.galleryGrid = container.querySelector('#galleryGrid');
+        this.uploadProgress = container.querySelector('#uploadProgress');
+        this.progressBar = container.querySelector('#progressBar');
+        this.progressText = container.querySelector('#progressText');
+        
+        this.init();
+    }
+    
+    init() {
+        this.bindEvents();
+        this.loadExistingImages();
+    }
+    
+    bindEvents() {
+        // Click to select files
+        this.uploadArea.addEventListener('click', () => {
+            this.fileInput.click();
+        });
+        
+        // File input change
+        this.fileInput.addEventListener('change', (e) => {
+            this.handleFiles(e.target.files);
+        });
+        
+        // Drag and drop
+        this.uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            this.uploadArea.classList.add('dragover');
+        });
+        
+        this.uploadArea.addEventListener('dragleave', () => {
+            this.uploadArea.classList.remove('dragover');
+        });
+        
+        this.uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            this.uploadArea.classList.remove('dragover');
+            this.handleFiles(e.dataTransfer.files);
+        });
+    }
+    
+    async handleFiles(files) {
+        const fileArray = Array.from(files);
+        
+        if (this.images.length + fileArray.length > this.maxImages) {
+            alert(`Maximum ${this.maxImages} foto's toegestaan`);
+            return;
+        }
+        
+        this.showProgress();
+        
+        for (let i = 0; i < fileArray.length; i++) {
+            const file = fileArray[i];
+            
+            if (!this.validateFile(file)) continue;
+            
+            try {
+                const uploadedImage = await this.uploadFile(file, i, fileArray.length);
+                this.images.push(uploadedImage);
+                this.renderGallery();
+            } catch (error) {
+                console.error('Upload failed:', error);
+                alert(`Upload van ${file.name} mislukt`);
+            }
+        }
+        
+        this.hideProgress();
+    }
+    
+    validateFile(file) {
+        // Check file type
+        if (!file.type.startsWith('image/')) {
+            alert(`${file.name} is geen geldige afbeelding`);
+            return false;
+        }
+        
+        // Check file size (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert(`${file.name} is te groot (max 5MB)`);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    async uploadFile(file, index, total) {
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('accommodation_id', this.accommodationId);
+        
+        const response = await fetch('/api/upload-image', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        // Update progress
+        const progress = ((index + 1) / total) * 100;
+        this.updateProgress(progress, `Uploading ${index + 1}/${total}`);
+        
+        return result.data;
+    }
+    
+    showProgress() {
+        this.uploadProgress.classList.remove('hidden');
+        this.updateProgress(0, 'Voorbereiden...');
+    }
+    
+    hideProgress() {
+        setTimeout(() => {
+            this.uploadProgress.classList.add('hidden');
+        }, 1000);
+    }
+    
+    updateProgress(percentage, text) {
+        this.progressBar.style.width = `${percentage}%`;
+        this.progressText.textContent = text;
+    }
+    
+    async loadExistingImages() {
+        if (!this.accommodationId) return;
+        
+        try {
+            const response = await fetch(`/api/accommodation-images?id=${this.accommodationId}`);
+            const result = await response.json();
+            
+            if (result.success) {
+                this.images = result.data || [];
+                this.renderGallery();
+            }
+        } catch (error) {
+            console.error('Failed to load existing images:', error);
+        }
+    }
+    
+    renderGallery() {
+        this.galleryGrid.innerHTML = '';
+        
+        this.images.forEach((image, index) => {
+            const imageItem = this.createImageItem(image, index);
+            this.galleryGrid.appendChild(imageItem);
+        });
+    }
+    
+    createImageItem(image, index) {
+        const div = document.createElement('div');
+        div.className = `image-item ${index === 0 ? 'primary' : ''}`;
+        
+        div.innerHTML = `
+            <img src="${image.url}" alt="Accommodation photo ${index + 1}">
+            <div class="overlay">
+                <div class="actions">
+                    ${index !== 0 ? `<button onclick="imageUploader.setPrimary(${index})" title="Hoofdfoto maken">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </button>` : ''}
+                    <button onclick="imageUploader.deleteImage(${index})" title="Verwijderen">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clip-rule="evenodd"></path>
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414L7.586 12l-1.293 1.293a1 1 0 101.414 1.414L9 13.414l2.293 2.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        return div;
+    }
+    
+    async setPrimary(index) {
+        // Move image to first position
+        const image = this.images.splice(index, 1)[0];
+        this.images.unshift(image);
+        
+        // Update database
+        await this.updateImageOrder();
+        this.renderGallery();
+    }
+    
+    async deleteImage(index) {
+        if (!confirm('Weet je zeker dat je deze foto wilt verwijderen?')) return;
+        
+        const image = this.images[index];
+        
+        try {
+            const response = await fetch('/api/delete-image', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: image.id })
+            });
+            
+            if (response.ok) {
+                this.images.splice(index, 1);
+                this.renderGallery();
+            } else {
+                alert('Verwijderen mislukt');
+            }
+        } catch (error) {
+            console.error('Delete failed:', error);
+            alert('Verwijderen mislukt');
+        }
+    }
+    
+    async updateImageOrder() {
+        try {
+            await fetch('/api/update-image-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    accommodation_id: this.accommodationId,
+                    images: this.images.map((img, index) => ({ id: img.id, order: index }))
+                })
+            });
+        } catch (error) {
+            console.error('Failed to update image order:', error);
+        }
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const containers = document.querySelectorAll('.image-upload-container');
+    containers.forEach(container => {
+        window.imageUploader = new ImageUploader(container);
+    });
+});
+</script>

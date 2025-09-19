@@ -1,0 +1,11 @@
+{
+  "bedrijfsinfo": {
+    "bedrijf_naam": "Zee-zicht",
+    "contact_email": "info@zee-zicht.nl",
+    "contact_telefoon": "0123-456789",
+    "website": "https://www.zee-zicht.nl",
+    "kvk_nummer": "12345678",
+    "btw_nummer": "NL123456789B01",
+    "bedrijf_adres": "Zeezichtlaan 45\n1234 AB Zandvoort\nNederland"
+  }
+}

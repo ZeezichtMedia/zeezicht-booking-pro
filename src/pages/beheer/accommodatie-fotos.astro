@@ -1,0 +1,141 @@
+---
+import LayoutSidebar from '../../app/LayoutSidebar.astro';
+import ImageUpload from '../../components/ImageUpload.astro';
+import { supabaseAdmin } from '../../lib/supabase';
+
+// Get accommodations for selection
+const { data: accommodations, error } = await supabaseAdmin
+    .from('accommodations')
+    .select('id, name, type')
+    .eq('active', true)
+    .order('created_at', { ascending: true });
+
+if (error) {
+    console.error('Error fetching accommodations:', error);
+}
+
+// Get selected accommodation from URL params
+const url = Astro.url;
+const selectedAccommodationId = url.searchParams.get('accommodation') || '';
+const selectedAccommodation = accommodations?.find(acc => acc.id === selectedAccommodationId);
+---
+
+<LayoutSidebar>
+    <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+        <div class="w-full mb-1">
+            <div class="mb-4">
+                <nav class="flex mb-5" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+                        <li class="inline-flex items-center">
+                            <a href="/beheer" class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+                                <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-9 9a1 1 0 101.414 1.414L8 5.414V17a1 1 0 102 0V5.414l6.293 6.293a1 1 0 001.414-1.414l-9-9z"></path>
+                                </svg>
+                                Beheer
+                            </a>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500">Accommodatie Foto's</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+                    📸 Accommodatie Foto's Beheren
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col">
+        <div class="overflow-x-auto">
+            <div class="inline-block min-w-full align-middle">
+                <div class="overflow-hidden shadow">
+                    
+                    <!-- Accommodation Selector -->
+                    <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                        <div class="max-w-md">
+                            <label for="accommodation-select" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Selecteer Accommodatie
+                            </label>
+                            <select id="accommodation-select" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    onchange="window.location.href = '/beheer/accommodatie-fotos?accommodation=' + this.value">
+                                <option value="">Kies een accommodatie...</option>
+                                {accommodations?.map(acc => (
+                                    <option value={acc.id} selected={acc.id === selectedAccommodationId}>
+                                        {acc.name} ({acc.type})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Image Upload Section -->
+                    {selectedAccommodation ? (
+                        <div class="p-6 bg-white dark:bg-gray-800">
+                            <div class="mb-6">
+                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                                    Foto's voor: {selectedAccommodation.name}
+                                </h2>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                    Upload en beheer foto's voor deze accommodatie. De eerste foto wordt automatisch de hoofdfoto.
+                                </p>
+                            </div>
+
+                            <!-- Image Upload Component -->
+                            <ImageUpload 
+                                accommodationId={selectedAccommodationId}
+                                maxImages={10}
+                            />
+
+                            <!-- Tips -->
+                            <div class="mt-8 p-4 bg-blue-50 rounded-lg dark:bg-blue-900/20">
+                                <h3 class="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">
+                                    💡 Tips voor goede foto's:
+                                </h3>
+                                <ul class="text-sm text-blue-800 dark:text-blue-300 space-y-1">
+                                    <li>• Gebruik hoge kwaliteit foto's (minimaal 800x600 pixels)</li>
+                                    <li>• Zorg voor goede belichting en scherpte</li>
+                                    <li>• Toon verschillende hoeken en ruimtes</li>
+                                    <li>• De eerste foto wordt gebruikt als hoofdfoto op de website</li>
+                                    <li>• Sleep foto's om de volgorde te wijzigen</li>
+                                </ul>
+                            </div>
+                        </div>
+                    ) : (
+                        <div class="p-12 text-center bg-white dark:bg-gray-800">
+                            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                                Selecteer een accommodatie
+                            </h3>
+                            <p class="text-gray-600 dark:text-gray-400">
+                                Kies een accommodatie uit de lijst hierboven om foto's te beheren.
+                            </p>
+                        </div>
+                    )}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</LayoutSidebar>
+
+<style>
+/* Custom styles for this page */
+.image-upload-container {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .image-upload-container .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>

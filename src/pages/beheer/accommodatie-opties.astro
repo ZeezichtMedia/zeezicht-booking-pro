@@ -1,0 +1,323 @@
+---
+import LayoutSidebar from '../../app/LayoutSidebar.astro';
+---
+
+<LayoutSidebar title="Accommodatie Opties & Tarieven">
+	<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+		<div class="w-full mb-1">
+			<div class="mb-4">
+				<nav class="flex mb-5" aria-label="Breadcrumb">
+					<ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+						<li class="inline-flex items-center">
+							<a href="/dashboard" class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+								<svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+								Overzicht
+							</a>
+						</li>
+						<li>
+							<div class="flex items-center">
+								<svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+								<span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Accommodatie Opties</span>
+							</div>
+						</li>
+					</ol>
+				</nav>
+				<h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+					Accommodatie Opties & Tarieven
+				</h1>
+			</div>
+			
+			<!-- Accommodation Selector -->
+			<div class="mb-6">
+				<label for="accommodation-select" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+					Selecteer Accommodatie
+				</label>
+				<select id="accommodation-select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full max-w-md p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" onchange="loadAccommodationOptions()">
+					<option value="">Kies een accommodatie...</option>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<!-- Options Management -->
+	<div id="options-container" class="hidden">
+		<!-- Recurring Options -->
+		<div class="p-4 bg-white dark:bg-gray-800">
+			<div class="flex justify-between items-center mb-4">
+				<h2 class="text-lg font-semibold text-gray-900 dark:text-white">Opties per Nacht</h2>
+				<button onclick="openAddOptionModal('recurring')" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+					<svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+					</svg>
+					Nieuwe Optie
+				</button>
+			</div>
+			<div id="recurring-options" class="space-y-2">
+				<!-- Recurring options will be loaded here -->
+			</div>
+		</div>
+
+		<!-- One-time Options -->
+		<div class="p-4 bg-white border-t dark:bg-gray-800 dark:border-gray-700">
+			<div class="flex justify-between items-center mb-4">
+				<h2 class="text-lg font-semibold text-gray-900 dark:text-white">Eenmalige Opties</h2>
+				<button onclick="openAddOptionModal('one_time')" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+					<svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+					</svg>
+					Nieuwe Optie
+				</button>
+			</div>
+			<div id="one-time-options" class="space-y-2">
+				<!-- One-time options will be loaded here -->
+			</div>
+		</div>
+	</div>
+
+	<!-- Add/Edit Option Modal -->
+	<div id="option-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+		<div class="relative p-4 w-full max-w-2xl max-h-full">
+			<div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+				<!-- Modal header -->
+				<div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+					<h3 id="modal-title" class="text-lg font-semibold text-gray-900 dark:text-white">
+						Nieuwe Optie Toevoegen
+					</h3>
+					<button onclick="closeOptionModal()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+						<svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
+							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+						</svg>
+					</button>
+				</div>
+				<!-- Modal body -->
+				<form id="option-form" class="p-4 md:p-5">
+					<input type="hidden" id="option-id" name="option_id">
+					<input type="hidden" id="option-category" name="category">
+					
+					<div class="grid gap-4 mb-4 grid-cols-2">
+						<div class="col-span-2">
+							<label for="option-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Naam</label>
+							<input type="text" id="option-name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Bijv. Elektrische aansluiting" required>
+						</div>
+						<div class="col-span-2">
+							<label for="option-description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Beschrijving</label>
+							<textarea id="option-description" name="description" rows="3" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Optionele beschrijving..."></textarea>
+						</div>
+						<div>
+							<label for="option-price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prijs (€)</label>
+							<input type="number" id="option-price" name="price" step="0.01" min="0" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="0.00" required>
+						</div>
+						<div>
+							<label for="option-unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Eenheid</label>
+							<select id="option-unit" name="unit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white" required>
+								<option value="">Selecteer eenheid...</option>
+								<option value="per_night">Per nacht</option>
+								<option value="per_person_per_night">Per persoon per nacht</option>
+								<option value="per_stay">Per verblijf</option>
+								<option value="per_person">Per persoon</option>
+								<option value="per_day">Per dag</option>
+								<option value="per_week">Per week</option>
+								<option value="per_use">Per gebruik</option>
+							</select>
+						</div>
+						<div>
+							<label for="option-sort-order" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Volgorde</label>
+							<input type="number" id="option-sort-order" name="sort_order" min="0" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="0">
+						</div>
+					</div>
+					<div class="flex justify-end space-x-2">
+						<button type="button" onclick="closeOptionModal()" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">
+							Annuleren
+						</button>
+						<button type="submit" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700">
+							Opslaan
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</LayoutSidebar>
+
+<script>
+	let currentAccommodationId = null;
+	let currentEditingOption = null;
+
+	// Load accommodations on page load
+	document.addEventListener('DOMContentLoaded', function() {
+		loadAccommodations();
+	});
+
+	async function loadAccommodations() {
+		try {
+			const response = await fetch('/api/accommodaties');
+			const accommodations = await response.json();
+			
+			const select = document.getElementById('accommodation-select');
+			select.innerHTML = '<option value="">Kies een accommodatie...</option>';
+			
+			accommodations.forEach(accommodation => {
+				const option = document.createElement('option');
+				option.value = accommodation.id;
+				option.textContent = accommodation.name;
+				select.appendChild(option);
+			});
+		} catch (error) {
+			console.error('Error loading accommodations:', error);
+		}
+	}
+
+	async function loadAccommodationOptions() {
+		const select = document.getElementById('accommodation-select');
+		currentAccommodationId = select.value;
+		
+		if (!currentAccommodationId) {
+			document.getElementById('options-container').classList.add('hidden');
+			return;
+		}
+
+		try {
+			const response = await fetch(`/api/accommodation-options?accommodation_id=${currentAccommodationId}`);
+			const result = await response.json();
+			
+			if (result.success) {
+				displayOptions(result.data);
+				document.getElementById('options-container').classList.remove('hidden');
+			}
+		} catch (error) {
+			console.error('Error loading options:', error);
+		}
+	}
+
+	function displayOptions(options) {
+		// Display recurring options
+		const recurringContainer = document.getElementById('recurring-options');
+		recurringContainer.innerHTML = options.recurring.map(option => createOptionCard(option)).join('');
+		
+		// Display one-time options
+		const oneTimeContainer = document.getElementById('one-time-options');
+		oneTimeContainer.innerHTML = options.one_time.map(option => createOptionCard(option)).join('');
+	}
+
+	function createOptionCard(option) {
+		const price = option.category === 'recurring' ? option.price_per_night : option.price_per_stay;
+		return `
+			<div class="p-4 bg-gray-50 rounded-lg border dark:bg-gray-600 dark:border-gray-500">
+				<div class="flex justify-between items-start">
+					<div class="flex-1">
+						<h4 class="font-medium text-gray-900 dark:text-white">${option.name}</h4>
+						<p class="text-sm text-gray-600 dark:text-gray-300">${option.description || ''}</p>
+						<p class="text-sm font-medium text-primary-600 dark:text-primary-400 mt-1">
+							€${price} ${getUnitLabel(option.unit)}
+						</p>
+					</div>
+					<div class="flex space-x-2 ml-4">
+						<button onclick="editOption('${option.id}')" class="text-primary-600 hover:text-primary-900 dark:text-primary-400">
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+							</svg>
+						</button>
+						<button onclick="deleteOption('${option.id}')" class="text-red-600 hover:text-red-900 dark:text-red-400">
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+		`;
+	}
+
+	function getUnitLabel(unit) {
+		const labels = {
+			'per_night': 'per nacht',
+			'per_person_per_night': 'per persoon per nacht',
+			'per_stay': 'per verblijf',
+			'per_person': 'per persoon',
+			'per_day': 'per dag',
+			'per_week': 'per week',
+			'per_use': 'per gebruik'
+		};
+		return labels[unit] || unit;
+	}
+
+	function openAddOptionModal(category) {
+		currentEditingOption = null;
+		document.getElementById('modal-title').textContent = 'Nieuwe Optie Toevoegen';
+		document.getElementById('option-category').value = category;
+		document.getElementById('option-form').reset();
+		document.getElementById('option-modal').classList.remove('hidden');
+	}
+
+	function editOption(optionId) {
+		// Find option data and populate form
+		// Implementation would load option data and populate form
+		console.log('Edit option:', optionId);
+	}
+
+	function deleteOption(optionId) {
+		if (confirm('Weet je zeker dat je deze optie wilt verwijderen?')) {
+			// Implementation for deleting option
+			console.log('Delete option:', optionId);
+		}
+	}
+
+	function closeOptionModal() {
+		document.getElementById('option-modal').classList.add('hidden');
+	}
+
+	// Form submission
+	document.getElementById('option-form').addEventListener('submit', async function(e) {
+		e.preventDefault();
+		
+		const formData = new FormData(this);
+		const data = {
+			accommodation_id: currentAccommodationId,
+			category: formData.get('category'),
+			name: formData.get('name'),
+			description: formData.get('description'),
+			unit: formData.get('unit'),
+			sort_order: formData.get('sort_order')
+		};
+
+		// Set price based on category
+		if (data.category === 'recurring') {
+			data.price_per_night = formData.get('price');
+		} else {
+			data.price_per_stay = formData.get('price');
+		}
+
+		try {
+			const method = currentEditingOption ? 'PUT' : 'POST';
+			if (currentEditingOption) {
+				data.id = currentEditingOption;
+			}
+
+			const response = await fetch('/api/accommodation-options', {
+				method: method,
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data)
+			});
+
+			const result = await response.json();
+			
+			if (result.success) {
+				closeOptionModal();
+				loadAccommodationOptions(); // Reload options
+				alert(currentEditingOption ? 'Optie bijgewerkt!' : 'Optie toegevoegd!');
+			} else {
+				alert('Fout: ' + result.message);
+			}
+		} catch (error) {
+			console.error('Error saving option:', error);
+			alert('Er is een fout opgetreden bij het opslaan.');
+		}
+	});
+
+	// Make functions globally available
+	window.loadAccommodationOptions = loadAccommodationOptions;
+	window.openAddOptionModal = openAddOptionModal;
+	window.editOption = editOption;
+	window.deleteOption = deleteOption;
+	window.closeOptionModal = closeOptionModal;
+</script>

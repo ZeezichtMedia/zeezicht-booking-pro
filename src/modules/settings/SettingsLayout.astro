@@ -1,0 +1,297 @@
+---
+/**
+ * Settings Layout Component
+ * Main layout with tab system for all settings sections
+ */
+---
+
+<!-- Notification System -->
+<div id="notification" class="fixed top-4 right-4 z-50 hidden">
+	<div id="notification-content" class="flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg">
+		<svg class="flex-shrink-0 inline w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+			<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+		</svg>
+		<span id="notification-message"></span>
+	</div>
+</div>
+
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+	<div class="w-full mb-1">
+		<div class="mb-4">
+			<h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Instellingen</h1>
+		</div>
+		
+		<!-- Tab Navigation -->
+		<div class="sm:flex">
+			<div class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
+				<div class="lg:pr-3">
+					<div class="flex space-x-1">
+						<button id="tab-bedrijfsinfo" onclick="showTab('bedrijfsinfo')" 
+								class="settings-tab-btn bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+							<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6z" clip-rule="evenodd"></path>
+							</svg>
+							<span class="ml-2">Bedrijfsinfo</span>
+						</button>
+						<button id="tab-accommodatie" onclick="showTab('accommodatie')" 
+								class="settings-tab-btn text-gray-700 dark:text-gray-300 inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+							<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+								<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+							</svg>
+							<span class="ml-2">Accommodatie</span>
+						</button>
+						<button id="tab-website" onclick="showTab('website')" 
+								class="settings-tab-btn text-gray-700 dark:text-gray-300 inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+							<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clip-rule="evenodd"></path>
+							</svg>
+							<span class="ml-2">Website</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Settings Content Container -->
+<div class="flex flex-col">
+	<div class="overflow-x-auto">
+		<div class="inline-block min-w-full align-middle">
+			<div class="overflow-hidden shadow">
+				
+				<!-- Bedrijfsinfo Tab Content -->
+				<div id="content-bedrijfsinfo" class="settings-content">
+					<div id="bedrijfsinfo-content">
+						<!-- Content will be loaded here -->
+					</div>
+				</div>
+
+				<!-- Accommodatie Tab Content -->
+				<div id="content-accommodatie" class="settings-content hidden">
+					<div id="accommodatie-content">
+						<!-- Content will be loaded here -->
+					</div>
+				</div>
+
+				<!-- Website Tab Content -->
+				<div id="content-website" class="settings-content hidden">
+					<div id="website-content">
+						<!-- Content will be loaded here -->
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Core Settings JavaScript - Inline for now
+	class SettingsCore {
+		constructor() {
+			this.currentTab = 'bedrijfsinfo';
+			this.init();
+		}
+
+		init() {
+			this.bindEvents();
+			this.loadInitialContent();
+		}
+
+		bindEvents() {
+			document.addEventListener('DOMContentLoaded', () => {
+				this.showTab('bedrijfsinfo');
+			});
+		}
+
+		showTab(tabName) {
+			// Hide all content sections
+			document.querySelectorAll('.settings-content').forEach(content => {
+				content.classList.add('hidden');
+			});
+			
+			// Remove active class from all tabs
+			document.querySelectorAll('.settings-tab-btn').forEach(btn => {
+				btn.classList.remove('bg-primary-100', 'text-primary-700', 'dark:bg-primary-900', 'dark:text-primary-300');
+				btn.classList.add('text-gray-700', 'dark:text-gray-300');
+			});
+			
+			// Show selected content
+			const contentElement = document.getElementById(`content-${tabName}`);
+			if (contentElement) {
+				contentElement.classList.remove('hidden');
+			}
+			
+			// Add active class to selected tab
+			const activeTab = document.getElementById(`tab-${tabName}`);
+			if (activeTab) {
+				activeTab.classList.add('bg-primary-100', 'text-primary-700', 'dark:bg-primary-900', 'dark:text-primary-300');
+				activeTab.classList.remove('text-gray-700', 'dark:text-gray-300');
+			}
+			
+			// Load content for the tab
+			this.loadTabContent(tabName);
+			this.currentTab = tabName;
+		}
+
+		async loadTabContent(tabName) {
+			const contentContainer = document.getElementById(`${tabName}-content`);
+			if (!contentContainer) return;
+
+			// Show loading state
+			contentContainer.innerHTML = '<div class="p-8 text-center"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto"></div><p class="mt-2 text-gray-600">Laden...</p></div>';
+
+			try {
+				switch (tabName) {
+					case 'bedrijfsinfo':
+						await this.loadBedrijfsinfoContent(contentContainer);
+						break;
+					case 'accommodatie':
+						await this.loadAccommodatieContent(contentContainer);
+						break;
+					case 'website':
+						await this.loadWebsiteContent(contentContainer);
+						break;
+					default:
+						contentContainer.innerHTML = '<p class="p-8 text-center text-gray-500">Content niet gevonden</p>';
+				}
+			} catch (error) {
+				console.error(`Error loading ${tabName} content:`, error);
+				contentContainer.innerHTML = '<p class="p-8 text-center text-red-500">Fout bij het laden van content</p>';
+			}
+		}
+
+		async loadBedrijfsinfoContent(container) {
+			// Load bedrijfsinfo settings
+			const response = await fetch('/api/settings?section=bedrijfsinfo');
+			const result = await response.json();
+			
+			if (result.success) {
+				container.innerHTML = this.createBedrijfsinfoForm(result.data);
+				this.bindBedrijfsinfoEvents();
+			}
+		}
+
+		createBedrijfsinfoForm(data) {
+			return `
+				<div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
+					<div class="flex items-center justify-between mb-4">
+						<h3 class="text-xl font-semibold dark:text-white">Bedrijfsinformatie</h3>
+						<button type="button" onclick="saveBedrijfsinfo()" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+							Opslaan
+						</button>
+					</div>
+					
+					<form id="bedrijfsinfo-form" class="space-y-6">
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+							<div>
+								<label for="bedrijf-naam" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bedrijfsnaam *</label>
+								<input type="text" id="bedrijf-naam" name="bedrijf_naam" value="${data.bedrijf_naam || ''}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Zee-zicht B&B" required>
+							</div>
+							<div>
+								<label for="business-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type bedrijf *</label>
+								<select id="business-type" name="business_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+									<option value="">Selecteer type...</option>
+									<option value="bnb" ${data.business_type === 'bnb' ? 'selected' : ''}>Bed & Breakfast</option>
+									<option value="minicamping" ${data.business_type === 'minicamping' ? 'selected' : ''}>Minicamping</option>
+									<option value="camping" ${data.business_type === 'camping' ? 'selected' : ''}>Camping</option>
+									<option value="hotel" ${data.business_type === 'hotel' ? 'selected' : ''}>Hotel</option>
+									<option value="vakantiepark" ${data.business_type === 'vakantiepark' ? 'selected' : ''}>Vakantiepark</option>
+									<option value="glamping" ${data.business_type === 'glamping' ? 'selected' : ''}>Glamping</option>
+									<option value="hostel" ${data.business_type === 'hostel' ? 'selected' : ''}>Hostel</option>
+								</select>
+								<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Bepaalt automatisch de URL structuur van je website</p>
+							</div>
+							<div>
+								<label for="contact-email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Email *</label>
+								<input type="email" id="contact-email" name="contact_email" value="${data.contact_email || ''}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="info@zee-zicht.nl" required>
+							</div>
+							<div>
+								<label for="website-url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Website URL</label>
+								<input type="url" id="website-url" name="website_url" value="${data.website_url || ''}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="https://jouwdomein.nl">
+								<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">De URL waar je WordPress website draait</p>
+							</div>
+						</div>
+					</form>
+				</div>
+			`;
+		}
+
+		bindBedrijfsinfoEvents() {
+			// Make save function available
+			window.saveBedrijfsinfo = async () => {
+				const formData = {
+					bedrijf_naam: document.getElementById('bedrijf-naam')?.value || '',
+					business_type: document.getElementById('business-type')?.value || '',
+					contact_email: document.getElementById('contact-email')?.value || '',
+					website_url: document.getElementById('website-url')?.value || ''
+				};
+
+				try {
+					const response = await fetch('/api/settings', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							section: 'bedrijfsinfo',
+							data: formData
+						})
+					});
+
+					const result = await response.json();
+					if (result.success) {
+						this.showNotification('Bedrijfsinfo succesvol opgeslagen!', 'success');
+					} else {
+						this.showNotification('Fout bij opslaan: ' + result.message, 'error');
+					}
+				} catch (error) {
+					this.showNotification('Er is een fout opgetreden bij het opslaan', 'error');
+				}
+			};
+		}
+
+		async loadAccommodatieContent(container) {
+			container.innerHTML = '<p class="p-8 text-center text-gray-500">Accommodatie beheer - Coming soon</p>';
+		}
+
+		async loadWebsiteContent(container) {
+			container.innerHTML = '<p class="p-8 text-center text-gray-500">Website instellingen - Coming soon</p>';
+		}
+
+		loadInitialContent() {
+			setTimeout(() => {
+				this.showTab('bedrijfsinfo');
+			}, 100);
+		}
+
+		showNotification(message, type = 'success') {
+			const notification = document.getElementById('notification');
+			const alertDiv = document.getElementById('notification-content');
+			const messageSpan = document.getElementById('notification-message');
+			
+			if (!notification || !alertDiv || !messageSpan) return;
+			
+			messageSpan.textContent = message;
+			
+			if (type === 'success') {
+				alertDiv.className = 'flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg text-green-800 bg-green-50 dark:bg-gray-800 dark:text-green-400';
+			} else if (type === 'error') {
+				alertDiv.className = 'flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg text-red-800 bg-red-50 dark:bg-gray-800 dark:text-red-400';
+			} else {
+				alertDiv.className = 'flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg text-blue-800 bg-blue-50 dark:bg-gray-800 dark:text-blue-400';
+			}
+			
+			notification.classList.remove('hidden');
+			setTimeout(() => {
+				notification.classList.add('hidden');
+			}, 3000);
+		}
+	}
+
+	// Initialize settings system
+	const settings = new SettingsCore();
+	
+	// Make functions globally available
+	window.showTab = settings.showTab.bind(settings);
+	window.showNotification = settings.showNotification.bind(settings);
+</script>

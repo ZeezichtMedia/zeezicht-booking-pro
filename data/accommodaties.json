@@ -1,0 +1,17 @@
+[
+  {
+    "naam": "Basis Kampeerplaatsrr",
+    "type": "chalet",
+    "maxGasten": 5,
+    "oppervlakte": 2,
+    "prijs": 23,
+    "status": "actief",
+    "beschrijving": "23r2",
+    "extraInfo": "reg",
+    "voorzieningen": [
+      "Riool aansluiting",
+      "Zeezicht"
+    ],
+    "id": 1
+  }
+]

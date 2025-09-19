@@ -1,0 +1,1523 @@
+---
+/* eslint max-lines: 'off' */
+
+import { fetchData } from '../lib/data.js';
+import NavPagination from '../components/NavPagination.astro';
+
+const reserveringen = await fetchData('reserveringen');
+---
+
+<entities-crud type="reserveringen">
+	<div
+		class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700"
+	>
+		<div class="w-full mb-1">
+			<div class="mb-4">
+				<nav class="flex mb-5" aria-label="Breadcrumb">
+					<ol
+						class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2"
+					>
+						<li class="inline-flex items-center">
+							<a
+								href="#"
+								class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white"
+							>
+								<svg
+									class="w-5 h-5 mr-2.5"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+									><path
+										d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+									></path></svg
+								>
+								Start
+							</a>
+						</li>
+						<li>
+							<div class="flex items-center">
+								<svg
+									class="w-6 h-6 text-gray-400"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+									><path
+										fill-rule="evenodd"
+										d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+										clip-rule="evenodd"></path></svg
+								>
+								<a
+									href="#"
+									class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white"
+									Beheer</a
+								>
+							</div>
+						</li>
+						<li>
+							<div class="flex items-center">
+								<svg
+									class="w-6 h-6 text-gray-400"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+									><path
+										fill-rule="evenodd"
+										d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+										clip-rule="evenodd"></path></svg
+								>
+								<span
+									class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500"
+									aria-current="page">Reserveringen</span
+								>
+							</div>
+						</li>
+					</ol>
+				</nav>
+				<h1
+					class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
+				>
+					Alle Reserveringen
+				</h1>
+			</div>
+			<div class="items-center justify-between block sm:flex">
+				<div class="flex items-center mb-4 sm:mb-0">
+					<form class="sm:pr-3" action="#" method="GET">
+						<label for="reserverings-search" class="sr-only">Search</label>
+						<div class="relative w-48 mt-1 sm:w-64 xl:w-96">
+							<input
+								type="text"
+								name="email"
+								id="reserverings-search"
+								class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								placeholder="Zoek reserveringen..."
+							/>
+						</div>
+					</form>
+					<div class="flex items-center w-full sm:justify-end">
+						<div class="flex pl-2 space-x-1">
+							<a
+								href="#"
+								class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+							>
+								<svg
+									class="w-6 h-6"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+									><path
+										fill-rule="evenodd"
+										d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+										clip-rule="evenodd"></path></svg
+								>
+							</a>
+							<a
+								href="#"
+								class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+							>
+								<svg
+									class="w-6 h-6"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+									><path
+										fill-rule="evenodd"
+										d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+										clip-rule="evenodd"></path></svg
+								>
+							</a>
+							<a
+								href="#"
+								class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+							>
+								<svg
+									class="w-6 h-6"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+									><path
+										fill-rule="evenodd"
+										d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+										clip-rule="evenodd"></path></svg
+								>
+							</a>
+							<a
+								href="#"
+								class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+							>
+								<svg
+									class="w-6 h-6"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+									><path
+										d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+									></path></svg
+								>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="flex items-center ml-auto space-x-2 sm:space-x-3">
+					<button
+						type="button"
+						data-refresh
+						class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+					>
+						<svg
+							class="w-5 h-5 mr-2 -ml-1"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+							aria-hidden="true"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+							></path>
+						</svg>
+						Vernieuwen
+					</button>
+					<button
+						id="createProductButton"
+						class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+						type="button"
+						onclick="openNieuweReserveringModal()"
+					>
+						<svg
+							class="w-5 h-5 mr-2 -ml-1"
+							fill="currentColor"
+							viewBox="0 0 20 20"
+							xmlns="http://www.w3.org/2000/svg"
+							><path
+								fill-rule="evenodd"
+								d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+								clip-rule="evenodd"></path></svg
+						>
+						Reservering toevoegen
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="flex flex-col">
+		<div class="overflow-x-auto">
+			<div class="inline-block min-w-full align-middle">
+				<div class="overflow-hidden shadow">
+					<table
+						class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600"
+					>
+						<thead class="bg-gray-100 dark:bg-gray-700">
+							<tr>
+								<th scope="col" class="p-4">
+									<div class="flex items-center">
+										<input
+											id="checkbox-all"
+											aria-describedby="checkbox-1"
+											type="checkbox"
+											class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+										/>
+										<label for="checkbox-all" class="sr-only">checkbox</label>
+									</div>
+								</th>
+
+								{
+									[
+										'Gast & Kamer',
+										'Check-in',
+										'Check-out',
+										'Status',
+										'Prijs',
+										'Betaalstatus',
+									].map((th) => (
+										<th
+											scope="col"
+											class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+										>
+											{th}
+										</th>
+									))
+								}
+							</tr>
+						</thead>
+
+						<tbody
+							class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
+						>
+							{
+								reserveringen.map((reservering) => (
+									<tr 
+										class="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer reservering-row"
+										data-reservering-id={reservering.id}
+									>
+										<td class="w-4 p-4">
+											<div class="flex items-center">
+												<input
+													id={`checkbox-${reservering.id}`}
+													aria-describedby="checkbox-1"
+													type="checkbox"
+													class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+												/>
+												<label for={`checkbox-${reservering.id}`} class="sr-only">
+													checkbox
+												</label>
+											</div>
+										</td>
+										<td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+											<div class="text-base font-semibold text-gray-900 dark:text-white">
+												<data value="gast_naam">{reservering.gast_naam}</data>
+											</div>
+											<div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+												<data value="kamer">{reservering.kamer}</data>
+											</div>
+										</td>
+										<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											<data value="check_in">{reservering.check_in}</data>
+										</td>
+										<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											<data value="check_out">{reservering.check_out}</data>
+										</td>
+										<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											<span class={`px-2 py-1 text-xs font-medium rounded-full ${
+												reservering.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+												reservering.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+												reservering.status === 'checked_in' ? 'bg-blue-100 text-blue-800' :
+												reservering.status === 'checked_out' ? 'bg-gray-100 text-gray-800' :
+												'bg-red-100 text-red-800'
+											}`}>
+												{reservering.status === 'confirmed' ? 'Bevestigd' :
+												 reservering.status === 'pending' ? 'Wachtlijst' :
+												 reservering.status === 'checked_in' ? 'Check-in' :
+												 reservering.status === 'checked_out' ? 'Check-out' :
+												 reservering.status === 'cancelled' ? 'Geannuleerd' :
+												 reservering.status === 'no_show' ? 'No-show' :
+												 reservering.status || 'Onbekend'}
+											</span>
+										</td>
+										<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											<data value="totaal_prijs">{reservering.totaal_prijs}</data>
+										</td>
+										<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											<span class={`px-2 py-1 text-xs font-medium rounded-full ${
+												reservering.betaalstatus === 'paid' ? 'bg-green-100 text-green-800' :
+												reservering.betaalstatus === 'partial' ? 'bg-yellow-100 text-yellow-800' :
+												reservering.betaalstatus === 'refunded' ? 'bg-gray-100 text-gray-800' :
+												'bg-red-100 text-red-800'
+											}`}>
+												{reservering.betaalstatus === 'paid' ? 'Volledig Betaald' :
+												 reservering.betaalstatus === 'partial' ? 'Deels Betaald' :
+												 reservering.betaalstatus === 'pending' ? 'Niet Betaald' :
+												 reservering.betaalstatus === 'refunded' ? 'Terugbetaald' :
+												 reservering.betaalstatus || 'Onbekend'}
+											</span>
+										</td>
+									</tr>
+								))
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Reservering Details Modal -->
+	<div
+		id="reservering-details-modal"
+		class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50"
+		tabindex="-1"
+	>
+		<div class="relative w-full max-w-4xl max-h-full p-4">
+			<div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+				<!-- Modal header -->
+				<div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
+					<h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+						Reservering Details
+					</h3>
+					<button
+						type="button"
+						class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+						onclick="closeReserveringModal()"
+					>
+						<svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
+							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+						</svg>
+						<span class="sr-only">Close modal</span>
+					</button>
+				</div>
+				
+				<!-- Modal body with tabs -->
+				<div class="p-4">
+					<!-- Tab navigation -->
+					<div class="border-b border-gray-200 dark:border-gray-700">
+						<ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+							<li class="mr-2">
+								<button
+									class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 tab-button active"
+									data-tab="algemeen"
+									onclick="switchTab('algemeen')"
+								>
+									Algemeen
+								</button>
+							</li>
+							<li class="mr-2">
+								<button
+									class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 tab-button"
+									data-tab="opmerkingen"
+									onclick="switchTab('opmerkingen')"
+								>
+									Opmerkingen
+								</button>
+							</li>
+							<li class="mr-2">
+								<button
+									class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 tab-button"
+									data-tab="betalingen"
+									onclick="switchTab('betalingen')"
+								>
+									Betalingsvoorwaarden
+								</button>
+							</li>
+						</ul>
+					</div>
+					
+					<!-- Tab content -->
+					<div class="mt-4">
+						<!-- Algemeen Tab -->
+						<div id="algemeen-tab" class="tab-content">
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+								<!-- Gastgegevens -->
+								<div class="space-y-4">
+									<div class="flex items-center justify-between">
+										<h4 class="text-lg font-semibold text-gray-900 dark:text-white">Gastgegevens</h4>
+										<button type="button" onclick="toggleGastSelector()" class="text-primary-600 hover:text-primary-700 text-sm font-medium">
+											Andere Gast
+										</button>
+									</div>
+									
+									<!-- Gast Selector (hidden by default) -->
+									<div id="gast-selector" class="hidden">
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Zoek Gast</label>
+										<div class="relative">
+											<input 
+												type="text" 
+												id="gast-search-input" 
+												name="guest-search"
+												class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" 
+												placeholder="Klik hier om te zoeken naar bestaande gast..."
+												onclick="activateGastSearch()"
+												autocomplete="off"
+												spellcheck="false"
+												readonly
+											>
+											<svg class="absolute right-3 top-3 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+											</svg>
+										</div>
+										
+										<!-- Search Results -->
+										<div id="gast-search-results" class="hidden mt-2 max-h-48 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-700 dark:border-gray-600">
+											<!-- Results will be populated here -->
+										</div>
+										
+										<div class="mt-2 flex gap-2">
+											<button type="button" onclick="confirmGastChange()" class="text-xs px-3 py-1 bg-primary-600 text-white rounded hover:bg-primary-700" disabled id="confirm-gast-btn">
+												Bevestigen
+											</button>
+											<button type="button" onclick="cancelGastChange()" id="cancel-gast-btn" class="text-xs px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+												Annuleren
+											</button>
+											<button type="button" onclick="showNewGastForm()" class="text-xs px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700">
+												+ Nieuwe Gast
+											</button>
+										</div>
+									</div>
+									
+									<!-- Current Guest Info (read-only) -->
+									<div id="current-gast-info">
+										<div>
+											<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Naam</label>
+											<input type="text" id="modal-gast-naam" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white" readonly>
+										</div>
+										<div>
+											<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+											<input type="email" id="modal-gast-email" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white" readonly>
+										</div>
+										<div>
+											<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefoon</label>
+											<input type="text" id="modal-gast-telefoon" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white" readonly>
+										</div>
+									</div>
+									
+									<!-- Hidden field for gast_id -->
+									<input type="hidden" id="modal-gast-id" value="">
+								</div>
+								
+								<!-- Reservering details -->
+								<div class="space-y-4">
+									<h4 class="text-lg font-semibold text-gray-900 dark:text-white">Reservering</h4>
+									<div class="grid grid-cols-2 gap-4">
+										<div>
+											<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Aankomst</label>
+											<input type="date" id="modal-check-in" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+										</div>
+										<div>
+											<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Vertrek</label>
+											<input type="date" id="modal-check-out" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+										</div>
+									</div>
+									<div>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kamer</label>
+										<select id="modal-kamer" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+											<option value="">Selecteer een accommodatie...</option>
+											<!-- Accommodaties worden dynamisch geladen -->
+										</select>
+									</div>
+									<div>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Aantal gasten</label>
+										<input type="number" id="modal-aantal-gasten" min="1" max="8" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+									</div>
+								</div>
+							</div>
+							
+							<!-- Kosten sectie -->
+							<div class="mt-6">
+								<h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Kosten & Opties</h4>
+								<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+									<div>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prijs per nacht</label>
+										<input type="number" step="0.01" id="modal-prijs-per-nacht" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="125.00">
+									</div>
+									<div>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Totaal prijs</label>
+										<input type="number" step="0.01" id="modal-totaal-prijs" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="375.00">
+									</div>
+									<div>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+										<select id="modal-status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+											<option value="confirmed">Bevestigd</option>
+											<option value="pending">Wachtlijst</option>
+											<option value="checked_in">Check-in</option>
+											<option value="checked_out">Check-out</option>
+											<option value="cancelled">Geannuleerd</option>
+											<option value="no_show">No-show</option>
+										</select>
+									</div>
+								</div>
+								
+								<!-- Opties en toeslagen -->
+								<div class="mt-4">
+									<h5 class="text-md font-medium text-gray-900 dark:text-white mb-3">Opties & Toeslagen</h5>
+									<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+										<div class="flex items-center">
+											<input id="ontbijt" type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+											<label for="ontbijt" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ontbijt (+€12,50)</label>
+										</div>
+										<div class="flex items-center">
+											<input id="linnen" type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+											<label for="linnen" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Linnen (+€15,00)</label>
+										</div>
+										<div class="flex items-center">
+											<input id="handdoeken" type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+											<label for="handdoeken" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Handdoeken (+€8,50)</label>
+										</div>
+										<div class="flex items-center">
+											<input id="parkeren" type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+											<label for="parkeren" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Parkeren (+€5,00)</label>
+										</div>
+									</div>
+								</div>
+								
+								<!-- Korting en borg -->
+								<div class="mt-4 grid grid-cols-2 gap-4">
+									<div>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Korting</label>
+										<input type="number" step="0.01" id="modal-korting" placeholder="0.00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+									</div>
+									<div>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Borg</label>
+										<input type="number" step="0.01" id="modal-borg" placeholder="50.00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Opmerkingen Tab -->
+						<div id="opmerkingen-tab" class="tab-content hidden">
+							<div class="space-y-6">
+								<div>
+									<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+										Publieke opmerkingen
+										<span class="text-xs text-gray-500">(zichtbaar voor gast)</span>
+									</label>
+									<textarea rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Opmerkingen die de gast kan zien..."></textarea>
+								</div>
+								<div>
+									<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+										Interne opmerkingen
+										<span class="text-xs text-red-500">(alleen voor personeel)</span>
+									</label>
+									<textarea rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-red-50 rounded-lg border border-red-300 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-red-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" placeholder="Interne notities over de gast of reservering..."></textarea>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Betalingsvoorwaarden Tab -->
+						<div id="betalingen-tab" class="tab-content hidden">
+							<div class="space-y-6">
+								<div class="bg-blue-50 border border-blue-200 rounded-lg p-4 dark:bg-blue-900 dark:border-blue-700">
+									<h4 class="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-3">Standaard Betalingsvoorwaarden</h4>
+									<div class="space-y-3">
+										<div class="flex items-center justify-between">
+											<span class="text-blue-800 dark:text-blue-200">40% Aanbetaling vooraf</span>
+											<span class="font-semibold text-blue-900 dark:text-blue-100">Binnen 21 dagen na reservering</span>
+										</div>
+										<div class="flex items-center justify-between">
+											<span class="text-blue-800 dark:text-blue-200">60% Restbetaling</span>
+											<span class="font-semibold text-blue-900 dark:text-blue-100">1 week voor aankomst</span>
+										</div>
+									</div>
+								</div>
+								
+								<div class="grid grid-cols-2 gap-4">
+									<div>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Aanbetaling (40%)</label>
+										<input type="text" id="modal-aanbetaling" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" readonly>
+									</div>
+									<div>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Restbetaling (60%)</label>
+										<input type="text" id="modal-restbetaling" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" readonly>
+									</div>
+								</div>
+								
+								<div>
+									<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Betaalstatus</label>
+									<select id="modal-betaalstatus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+										<option value="pending">Niet Betaald</option>
+										<option value="partial">Deels Betaald</option>
+										<option value="paid">Volledig Betaald</option>
+										<option value="refunded">Terugbetaald</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+					<button type="button" onclick="saveReservering()" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+						Opslaan
+					</button>
+					<button type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600" onclick="closeReserveringModal()">
+						Annuleren
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Success Notification -->
+	<div id="success-notification" class="fixed top-4 right-4 z-50 hidden">
+		<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg flex items-center">
+			<svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+			</svg>
+			<span id="notification-message">Reservering succesvol opgeslagen!</span>
+		</div>
+	</div>
+
+	<!-- Error Notification -->
+	<div id="error-notification" class="fixed top-4 right-4 z-50 hidden">
+		<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg flex items-center">
+			<svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+			</svg>
+			<span id="error-message">Er is een fout opgetreden</span>
+		</div>
+	</div>
+
+	<NavPagination />
+</entities-crud>
+
+<script>
+	// Modal functions
+	function openNieuweReserveringModal() {
+		const modal = document.getElementById('reservering-details-modal');
+		modal.classList.remove('hidden');
+		modal.setAttribute('aria-hidden', 'false');
+		
+		// Set current ID to null for new reservering FIRST
+		window.currentReserveringId = null;
+		
+		// Clear form for new reservering
+		clearReserveringForm();
+		
+		// Load accommodaties for the dropdown
+		loadAccommodatiesForSelector();
+		
+		// Load gasten for the selector
+		loadGastenForSelector();
+		
+		// For new reserveringen: Show simplified gast selector (no search active, no confirm/cancel buttons)
+		document.getElementById('current-gast-info').classList.add('hidden');
+		document.getElementById('gast-selector').classList.remove('hidden');
+		
+		// Hide search results and confirm/cancel buttons initially
+		const searchResults = document.getElementById('gast-search-results');
+		const confirmBtn = document.getElementById('confirm-gast-btn');
+		const cancelBtn = document.getElementById('cancel-gast-btn');
+		
+		if (searchResults) searchResults.classList.add('hidden');
+		if (confirmBtn) confirmBtn.classList.add('hidden');
+		if (cancelBtn) cancelBtn.classList.add('hidden');
+		
+		// Clear search input and make it inactive
+		const searchInput = document.getElementById('gast-search-input');
+		if (searchInput) {
+			searchInput.value = '';
+			searchInput.placeholder = 'Klik hier om te zoeken naar bestaande gast...';
+			searchInput.readOnly = true;
+			searchInput.removeAttribute('oninput');
+		}
+		
+		// Hide "Andere gast" button for new reserveringen
+		const andereGastBtn = document.querySelector('button[onclick*="toggleGastSelector"]');
+		if (andereGastBtn) {
+			andereGastBtn.classList.add('hidden');
+		}
+		
+		// Reset state
+		selectedGastData = null;
+		
+		// Focus management - avoid focusing on search input to prevent activation
+		const firstFocusable = modal.querySelector('button:not([onclick*="activateGastSearch"]), select, textarea');
+		if (firstFocusable) {
+			firstFocusable.focus();
+		}
+	}
+	
+	function openReserveringModal(reserveringId) {
+		const modal = document.getElementById('reservering-details-modal');
+		modal.classList.remove('hidden');
+		modal.setAttribute('aria-hidden', 'false');
+		
+		// Focus management
+		const firstFocusable = modal.querySelector('button, input, select, textarea');
+		if (firstFocusable) {
+			firstFocusable.focus();
+		}
+		
+		// Load accommodaties for the dropdown
+		loadAccommodatiesForSelector();
+		
+		// Load reservering data
+		populateModalWithData(reserveringId);
+	}
+	
+	function closeReserveringModal() {
+		const modal = document.getElementById('reservering-details-modal');
+		
+		// Remove focus from any focused element inside modal
+		const focusedElement = modal.querySelector(':focus');
+		if (focusedElement) {
+			focusedElement.blur();
+		}
+		
+		modal.classList.add('hidden');
+		modal.setAttribute('aria-hidden', 'true');
+	}
+	
+	function switchTab(tabName) {
+		// Hide all tabs
+		document.querySelectorAll('.tab-content').forEach(tab => {
+			tab.classList.add('hidden');
+		});
+		
+		// Remove active class from all buttons
+		document.querySelectorAll('.tab-button').forEach(button => {
+			button.classList.remove('active', 'border-primary-600', 'text-primary-600');
+			button.classList.add('border-transparent');
+		});
+		
+		// Show selected tab
+		document.getElementById(tabName + '-tab').classList.remove('hidden');
+		
+		// Add active class to selected button
+		const activeButton = document.querySelector(`[data-tab="${tabName}"]`);
+		activeButton.classList.add('active', 'border-primary-600', 'text-primary-600');
+		activeButton.classList.remove('border-transparent');
+	}
+	
+	async function populateModalWithData(reserveringId) {
+		// Skip loading data for new reserveringen
+		if (!reserveringId) {
+			console.log('No reservering ID provided - this is a new reservering');
+			return;
+		}
+		
+		try {
+			console.log('Loading reservering data for ID:', reserveringId);
+			
+			const response = await fetch(`/api/reserveringen?id=${reserveringId}`);
+			if (!response.ok) {
+				throw new Error('Failed to fetch reservering data');
+			}
+			
+			const data = await response.json();
+			
+			// Populate form fields
+			document.getElementById('modal-gast-id').value = data.gast_id || '';
+			document.getElementById('modal-gast-naam').value = data.gast_naam || '';
+			document.getElementById('modal-gast-email').value = data.gast_email || '';
+			document.getElementById('modal-gast-telefoon').value = data.gast_telefoon || '';
+			
+			// Load gasten for selector
+			loadGastenForSelector();
+			
+			// Convert dates back to YYYY-MM-DD format for date inputs
+			document.getElementById('modal-check-in').value = convertDisplayDateToInput(data.check_in) || '';
+			document.getElementById('modal-check-out').value = convertDisplayDateToInput(data.check_out) || '';
+			
+			// Set kamer value after accommodaties are loaded
+			setTimeout(() => {
+				document.getElementById('modal-kamer').value = data.kamer || '';
+			}, 100);
+			document.getElementById('modal-aantal-gasten').value = data.aantal_gasten || '';
+			
+			// Remove currency symbols and convert to proper decimal format for number inputs
+			document.getElementById('modal-prijs-per-nacht').value = convertCurrencyToNumber(data.prijs_per_nacht) || '';
+			document.getElementById('modal-totaal-prijs').value = convertCurrencyToNumber(data.totaal_prijs) || '';
+			document.getElementById('modal-status').value = data.status || 'confirmed';
+			document.getElementById('modal-betaalstatus').value = data.betaalstatus || 'pending';
+			document.getElementById('modal-aanbetaling').value = convertCurrencyToNumber(data.aanbetaling) || '';
+			document.getElementById('modal-restbetaling').value = convertCurrencyToNumber(data.restbetaling) || '';
+			document.getElementById('modal-korting').value = convertCurrencyToNumber(data.korting) || '';
+			document.getElementById('modal-borg').value = convertCurrencyToNumber(data.borg) || '';
+			
+			// Set checkboxes
+			document.getElementById('ontbijt').checked = data.ontbijt || false;
+			document.getElementById('linnen').checked = data.linnen || false;
+			document.getElementById('handdoeken').checked = data.handdoeken || false;
+			document.getElementById('parkeren').checked = data.parkeren || false;
+			
+			// Set textarea values
+			const publicTextarea = document.querySelector('#opmerkingen-tab textarea:first-of-type');
+			const internTextarea = document.querySelector('#opmerkingen-tab textarea:last-of-type');
+			if (publicTextarea) publicTextarea.value = data.opmerkingen_publiek || '';
+			if (internTextarea) internTextarea.value = data.opmerkingen_intern || '';
+			
+			// Set korting and borg
+			const kortingInput = document.querySelector('input[placeholder="€0,00"]');
+			const borgInput = document.querySelector('input[placeholder="€50,00"]');
+			if (kortingInput) kortingInput.value = data.korting || '€0,00';
+			if (borgInput) borgInput.value = data.borg || '€50,00';
+			
+			// Store current reservering ID for saving
+			window.currentReserveringId = reserveringId;
+			
+		} catch (error) {
+			console.error('Error loading reservering data:', error);
+			showNotification('Fout bij het laden van reservering gegevens', 'error');
+		}
+	}
+	
+	// Add event listeners for reservering rows
+	document.addEventListener('DOMContentLoaded', function() {
+		// Add click handlers to all reservering rows
+		document.querySelectorAll('.reservering-row').forEach(row => {
+			row.addEventListener('click', function(e) {
+				// Don't trigger if clicking on checkbox
+				if (e.target.type === 'checkbox') return;
+				
+				const reserveringId = this.getAttribute('data-reservering-id');
+				if (reserveringId) {
+					openReserveringModal(reserveringId);
+				}
+			});
+		});
+	});
+
+	// Close modal when clicking outside
+	document.addEventListener('click', function(event) {
+		const modal = document.getElementById('reservering-details-modal');
+		if (event.target === modal) {
+			closeReserveringModal();
+		}
+	});
+	
+	function convertDateFormat(dateString) {
+		// Convert "2024-01-15" to "2024-01-15" format (for API)
+		if (!dateString) return '';
+		return dateString; // Date inputs already give us YYYY-MM-DD format
+	}
+	
+	function convertDisplayDateToInput(dateString) {
+		// Convert "15 Jan 2024" to "2024-01-15" format for date inputs
+		if (!dateString) return '';
+		
+		const months = {
+			'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
+			'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
+			'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+		};
+		
+		const parts = dateString.split(' ');
+		if (parts.length === 3) {
+			const day = parts[0].padStart(2, '0');
+			const month = months[parts[1]];
+			const year = parts[2];
+			return `${year}-${month}-${day}`;
+		}
+		
+		return dateString; // Return as-is if format doesn't match
+	}
+	
+	function convertCurrencyToNumber(currencyString) {
+		// Convert "€125,00" to "125.00" for number inputs
+		if (!currencyString) return '';
+		
+		// Remove € symbol and convert comma to dot
+		return currencyString.toString()
+			.replace(/€/g, '')
+			.replace(/\./g, '') // Remove thousand separators
+			.replace(/,/g, '.') // Convert decimal comma to dot
+			.trim();
+	}
+	
+	function showNotification(message, type = 'success') {
+		const successNotification = document.getElementById('success-notification');
+		const errorNotification = document.getElementById('error-notification');
+		
+		// Hide both notifications first
+		successNotification.classList.add('hidden');
+		errorNotification.classList.add('hidden');
+		
+		if (type === 'success') {
+			document.getElementById('notification-message').textContent = message;
+			successNotification.classList.remove('hidden');
+			
+			// Auto hide after 3 seconds
+			setTimeout(() => {
+				successNotification.classList.add('hidden');
+			}, 3000);
+		} else {
+			document.getElementById('error-message').textContent = message;
+			errorNotification.classList.remove('hidden');
+			
+			// Auto hide after 5 seconds
+			setTimeout(() => {
+				errorNotification.classList.add('hidden');
+			}, 5000);
+		}
+	}
+	
+	// Gast selector functions
+	let allGasten = [];
+	let selectedGastData = null;
+	
+	function clearReserveringForm() {
+		// Clear all form fields for new reservering
+		document.getElementById('modal-gast-id').value = '';
+		document.getElementById('modal-gast-naam').value = '';
+		document.getElementById('modal-gast-email').value = '';
+		document.getElementById('modal-gast-telefoon').value = '';
+		document.getElementById('modal-check-in').value = '';
+		document.getElementById('modal-check-out').value = '';
+		document.getElementById('modal-kamer').value = '';
+		document.getElementById('modal-aantal-gasten').value = '1';
+		document.getElementById('modal-prijs-per-nacht').value = '';
+		document.getElementById('modal-totaal-prijs').value = '';
+		document.getElementById('modal-status').value = 'confirmed'; // Default status
+		document.getElementById('modal-betaalstatus').value = 'pending'; // Default payment status
+		document.getElementById('modal-korting').value = '0';
+		document.getElementById('modal-borg').value = '50';
+		document.getElementById('modal-aanbetaling').value = '';
+		document.getElementById('modal-restbetaling').value = '';
+		
+		// Clear checkboxes
+		document.getElementById('ontbijt').checked = false;
+		document.getElementById('linnen').checked = false;
+		document.getElementById('handdoeken').checked = false;
+		document.getElementById('parkeren').checked = false;
+		
+		// Clear textareas
+		const publicTextarea = document.querySelector('#opmerkingen-tab textarea:first-of-type');
+		const internTextarea = document.querySelector('#opmerkingen-tab textarea:last-of-type');
+		if (publicTextarea) publicTextarea.value = '';
+		if (internTextarea) internTextarea.value = '';
+	}
+	
+	// Accommodatie functions
+	let allAccommodaties = [];
+	
+	async function loadAccommodatiesForSelector() {
+		try {
+			const response = await fetch('/api/accommodaties');
+			if (!response.ok) throw new Error('Failed to fetch accommodaties');
+			
+			const result = await response.json();
+			allAccommodaties = result.data || [];
+			populateKamerSelector();
+		} catch (error) {
+			console.error('Error loading accommodaties:', error);
+		}
+	}
+	
+	function populateKamerSelector() {
+		const kamerSelect = document.getElementById('modal-kamer');
+		if (!kamerSelect) return;
+		
+		// Clear existing options except the first one
+		kamerSelect.innerHTML = '<option value="">Selecteer een accommodatie...</option>';
+		
+		// Add accommodaties as options
+		allAccommodaties.forEach(accommodatie => {
+			const option = document.createElement('option');
+			option.value = accommodatie.name;
+			option.textContent = `${accommodatie.name} (max ${accommodatie.max_guests} gasten)`;
+			kamerSelect.appendChild(option);
+		});
+	}
+	
+	async function loadGastenForSelector() {
+		try {
+			const response = await fetch('/api/gasten');
+			if (!response.ok) throw new Error('Failed to fetch gasten');
+			
+			allGasten = await response.json();
+			console.log('Loaded gasten:', allGasten);
+			populateGastSelector();
+		} catch (error) {
+			console.error('Error loading gasten:', error);
+			allGasten = []; // Fallback to empty array
+		}
+	}
+	
+	function populateGastSelector() {
+		// This function is now used for search results - but only show when search is active
+		// Don't automatically show results when loading gasten
+		console.log('Gasten loaded, but not showing results automatically');
+	}
+	
+	function activateGastSearch() {
+		// Activate search mode - show confirm/cancel buttons and change placeholder
+		const searchInput = document.getElementById('gast-search-input');
+		const confirmBtn = document.getElementById('confirm-gast-btn');
+		const cancelBtn = document.getElementById('cancel-gast-btn');
+		
+		if (searchInput) {
+			searchInput.placeholder = 'Type naam of email...';
+			searchInput.readOnly = false;
+			searchInput.setAttribute('oninput', 'searchGasten()');
+			searchInput.removeAttribute('onclick'); // Remove onclick to prevent re-activation
+			// Focus again to allow typing
+			setTimeout(() => searchInput.focus(), 50);
+		}
+		
+		if (confirmBtn) confirmBtn.classList.remove('hidden');
+		if (cancelBtn) cancelBtn.classList.remove('hidden');
+	}
+
+	function searchGasten() {
+		const searchTerm = document.getElementById('gast-search-input').value.toLowerCase();
+		
+		if (searchTerm.length < 2) {
+			const searchResults = document.getElementById('gast-search-results');
+			const confirmBtn = document.getElementById('confirm-gast-btn');
+			const cancelBtn = document.getElementById('cancel-gast-btn');
+			
+			if (searchResults) searchResults.classList.add('hidden');
+			if (confirmBtn) confirmBtn.classList.add('hidden');
+			if (cancelBtn) cancelBtn.classList.add('hidden');
+			return;
+		}
+		
+		// Show confirm/cancel buttons when actively searching
+		const confirmBtn = document.getElementById('confirm-gast-btn');
+		const cancelBtn = document.getElementById('cancel-gast-btn');
+		
+		if (confirmBtn) confirmBtn.classList.remove('hidden');
+		if (cancelBtn) cancelBtn.classList.remove('hidden');
+		
+		const filteredGasten = allGasten.filter(gast => 
+			gast.name.toLowerCase().includes(searchTerm) || 
+			gast.email.toLowerCase().includes(searchTerm) ||
+			(gast.telefoon && gast.telefoon.includes(searchTerm))
+		);
+		
+		displayGastResults(filteredGasten);
+	}
+	
+	function showGastResults() {
+		// Only show results if search is active (confirm/cancel buttons are visible)
+		const confirmBtn = document.getElementById('confirm-gast-btn');
+		if (confirmBtn && !confirmBtn.classList.contains('hidden')) {
+			// Show all gasten when focusing on search input
+			displayGastResults(allGasten.slice(0, 10)); // Limit to first 10 for performance
+		}
+	}
+	
+	function displayGastResults(gasten) {
+		const resultsContainer = document.getElementById('gast-search-results');
+		
+		// Only display results if search is active
+		const confirmBtn = document.getElementById('confirm-gast-btn');
+		if (!confirmBtn || confirmBtn.classList.contains('hidden')) {
+			return; // Don't show results if search is not active
+		}
+		
+		if (gasten.length === 0) {
+			resultsContainer.innerHTML = '<div class="p-3 text-gray-500 text-sm">Geen gasten gevonden</div>';
+		} else {
+			resultsContainer.innerHTML = gasten.map(gast => `
+				<div class="p-3 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer border-b border-gray-200 dark:border-gray-600 last:border-b-0" 
+					 data-gast-id="${gast.id}" onclick="selectGastFromSearchByElement(this)">
+					<div class="flex items-center justify-between">
+						<div>
+							<div class="font-medium text-gray-900 dark:text-white">${gast.name}</div>
+							<div class="text-sm text-gray-500 dark:text-gray-400">${gast.email}</div>
+						</div>
+						<div class="text-xs text-gray-400">
+							${gast.aantal_bezoeken || 0} bezoeken
+						</div>
+					</div>
+				</div>
+			`).join('');
+		}
+		
+		resultsContainer.classList.remove('hidden');
+	}
+	
+	function toggleGastSelector() {
+		const selector = document.getElementById('gast-selector');
+		const currentInfo = document.getElementById('current-gast-info');
+		
+		if (selector.classList.contains('hidden')) {
+			selector.classList.remove('hidden');
+			currentInfo.classList.add('hidden');
+		} else {
+			selector.classList.add('hidden');
+			currentInfo.classList.remove('hidden');
+		}
+	}
+	
+	function selectGast() {
+		// Legacy function - kept for compatibility
+	}
+	
+	function selectGastFromSearchByElement(element) {
+		const gastId = element.getAttribute('data-gast-id');
+		selectGastFromSearch(gastId);
+	}
+	
+	function selectGastFromSearch(gastId) {
+		selectedGastData = allGasten.find(gast => gast.id == gastId);
+		
+		if (selectedGastData) {
+			// Update search input to show selected gast
+			document.getElementById('gast-search-input').value = `${selectedGastData.name} (${selectedGastData.email})`;
+			
+			// Hide results
+			document.getElementById('gast-search-results').classList.add('hidden');
+			
+			// Show the gast info section with readonly fields
+			document.getElementById('current-gast-info').classList.remove('hidden');
+			
+			// Fill and make readonly
+			const gastNaamField = document.getElementById('modal-gast-naam');
+			const gastEmailField = document.getElementById('modal-gast-email');
+			const gastTelefoonField = document.getElementById('modal-gast-telefoon');
+			
+			gastNaamField.value = selectedGastData.name;
+			gastEmailField.value = selectedGastData.email;
+			gastTelefoonField.value = selectedGastData.telefoon || '';
+			
+			// Make readonly
+			gastNaamField.readOnly = true;
+			gastEmailField.readOnly = true;
+			gastTelefoonField.readOnly = true;
+			
+			// Change styling to show they're readonly
+			gastNaamField.classList.remove('bg-white');
+			gastEmailField.classList.remove('bg-white');
+			gastTelefoonField.classList.remove('bg-white');
+			
+			gastNaamField.classList.add('bg-gray-100');
+			gastEmailField.classList.add('bg-gray-100');
+			gastTelefoonField.classList.add('bg-gray-100');
+			
+			// Enable confirm button
+			document.getElementById('confirm-gast-btn').disabled = false;
+			document.getElementById('confirm-gast-btn').classList.remove('opacity-50');
+		}
+	}
+	
+	function confirmGastChange() {
+		if (selectedGastData) {
+			// Update the hidden gast ID field
+			document.getElementById('modal-gast-id').value = selectedGastData.id;
+			
+			showNotification('Gast gewijzigd naar ' + selectedGastData.name, 'success');
+		}
+		
+		// Hide selector (gast info is already shown)
+		document.getElementById('gast-selector').classList.add('hidden');
+	}
+	
+	function cancelGastChange() {
+		// Reset search to inactive state
+		const searchInput = document.getElementById('gast-search-input');
+		const searchResults = document.getElementById('gast-search-results');
+		const confirmBtn = document.getElementById('confirm-gast-btn');
+		const cancelBtn = document.getElementById('cancel-gast-btn');
+		
+		if (searchInput) {
+			searchInput.value = '';
+			searchInput.placeholder = 'Klik hier om te zoeken naar bestaande gast...';
+			searchInput.readOnly = true;
+			searchInput.removeAttribute('oninput');
+			searchInput.setAttribute('onclick', 'activateGastSearch()'); // Restore onclick handler
+		}
+		
+		if (searchResults) searchResults.classList.add('hidden');
+		if (confirmBtn) {
+			confirmBtn.classList.add('hidden');
+			confirmBtn.disabled = true;
+			confirmBtn.classList.add('opacity-50');
+		}
+		if (cancelBtn) cancelBtn.classList.add('hidden');
+		
+		selectedGastData = null;
+		
+		// For existing reserveringen, hide selector and show current info
+		if (window.currentReserveringId) {
+			document.getElementById('gast-selector').classList.add('hidden');
+			document.getElementById('current-gast-info').classList.remove('hidden');
+		}
+	}
+	
+	function showNewGastForm() {
+		// Hide the gast selector completely
+		document.getElementById('gast-selector').classList.add('hidden');
+		
+		// Show the gast info section with editable fields
+		document.getElementById('current-gast-info').classList.remove('hidden');
+		
+		// Enable the form fields for manual entry
+		const gastNaamField = document.getElementById('modal-gast-naam');
+		const gastEmailField = document.getElementById('modal-gast-email');
+		const gastTelefoonField = document.getElementById('modal-gast-telefoon');
+		
+		gastNaamField.disabled = false;
+		gastEmailField.disabled = false;
+		gastTelefoonField.disabled = false;
+		
+		gastNaamField.readOnly = false;
+		gastEmailField.readOnly = false;
+		gastTelefoonField.readOnly = false;
+		
+		// Change styling to show they're editable
+		gastNaamField.classList.remove('bg-gray-100');
+		gastEmailField.classList.remove('bg-gray-100');
+		gastTelefoonField.classList.remove('bg-gray-100');
+		
+		gastNaamField.classList.add('bg-white');
+		gastEmailField.classList.add('bg-white');
+		gastTelefoonField.classList.add('bg-white');
+		
+		// Clear the fields
+		gastNaamField.value = '';
+		gastEmailField.value = '';
+		gastTelefoonField.value = '';
+		
+		// Focus on the name field
+		gastNaamField.focus();
+		
+		// Clear selected gast data
+		selectedGastData = null;
+		
+		// Show "Bestaande gast" button where "Andere gast" normally is
+		showBestaandeGastButton();
+		
+		showNotification('Vul de gastgegevens handmatig in', 'info');
+	}
+	
+	function showBestaandeGastButton() {
+		// Find the "Andere gast" button and change it to "Bestaande gast"
+		const andereGastBtn = document.querySelector('button[onclick="toggleGastSelector()"]');
+		if (andereGastBtn) {
+			andereGastBtn.textContent = 'Bestaande gast';
+			andereGastBtn.setAttribute('onclick', 'showBestaandeGastSelector()');
+		}
+	}
+	
+	function showBestaandeGastSelector() {
+		// Hide current gast info
+		document.getElementById('current-gast-info').classList.add('hidden');
+		
+		// Show gast selector
+		document.getElementById('gast-selector').classList.remove('hidden');
+		
+		// Reset the button back to "Andere gast"
+		const bestaandeGastBtn = document.querySelector('button[onclick="showBestaandeGastSelector()"]');
+		if (bestaandeGastBtn) {
+			bestaandeGastBtn.textContent = 'Andere gast';
+			bestaandeGastBtn.setAttribute('onclick', 'toggleGastSelector()');
+		}
+		
+		// Clear search and hide buttons initially
+		document.getElementById('gast-search-input').value = '';
+		document.getElementById('gast-search-results').classList.add('hidden');
+		document.getElementById('confirm-gast-btn').classList.add('hidden');
+		document.getElementById('cancel-gast-btn').classList.add('hidden');
+		
+		selectedGastData = null;
+	}
+	
+	// Hide search results when clicking outside
+	document.addEventListener('click', function(event) {
+		const searchContainer = document.getElementById('gast-selector');
+		const searchResults = document.getElementById('gast-search-results');
+		
+		if (!searchContainer.contains(event.target)) {
+			searchResults.classList.add('hidden');
+		}
+	});
+
+	async function saveReservering() {
+		try {
+			// Collect form data
+			const formData = {
+				gast_id: document.getElementById('modal-gast-id').value,
+				gast_naam: document.getElementById('modal-gast-naam').value,
+				gast_email: document.getElementById('modal-gast-email').value,
+				gast_telefoon: document.getElementById('modal-gast-telefoon').value,
+				check_in: convertDateFormat(document.getElementById('modal-check-in').value),
+				check_out: convertDateFormat(document.getElementById('modal-check-out').value),
+				kamer: document.getElementById('modal-kamer').value,
+				aantal_gasten: parseInt(document.getElementById('modal-aantal-gasten').value) || 1,
+				prijs_per_nacht: parseFloat(document.getElementById('modal-prijs-per-nacht').value) || 0,
+				totaal_prijs: parseFloat(document.getElementById('modal-totaal-prijs').value) || 0,
+				betaalstatus: document.getElementById('modal-betaalstatus').value,
+				reservering_status: document.getElementById('modal-status').value,
+				ontbijt: document.getElementById('ontbijt').checked ? 1 : 0,
+				linnen: document.getElementById('linnen').checked ? 1 : 0,
+				handdoeken: document.getElementById('handdoeken').checked ? 1 : 0,
+				parkeren: document.getElementById('parkeren').checked ? 1 : 0,
+				korting: parseFloat(document.getElementById('modal-korting').value) || 0,
+				borg: parseFloat(document.getElementById('modal-borg').value) || 50,
+				aanbetaling: parseFloat(document.getElementById('modal-aanbetaling').value) || 0,
+				restbetaling: parseFloat(document.getElementById('modal-restbetaling').value) || 0,
+				opmerkingen_publiek: document.querySelector('#opmerkingen-tab textarea:first-of-type').value,
+				opmerkingen_intern: document.querySelector('#opmerkingen-tab textarea:last-of-type').value
+			};
+			
+			console.log('Saving reservering with data:', formData);
+			
+			// Validate required fields
+			if (!formData.gast_naam || !formData.gast_email || !formData.check_in || !formData.check_out || !formData.kamer) {
+				showNotification('Vul alle verplichte velden in (Gast naam, email, check-in, check-out, kamer)', 'error');
+				return;
+			}
+			
+			// Determine if this is a new reservering or update
+			const isNewReservering = !window.currentReserveringId;
+			const method = isNewReservering ? 'POST' : 'PUT';
+			
+			// Add ID only for existing reserveringen
+			if (!isNewReservering) {
+				formData.id = window.currentReserveringId;
+			}
+			
+			const response = await fetch('/api/reserveringen', {
+				method: method,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formData)
+			});
+			
+			if (!response.ok) {
+				throw new Error('Failed to save reservering');
+			}
+			
+			const result = await response.json();
+			console.log('Reservering saved successfully:', result);
+			
+			const successMessage = isNewReservering ? 'Nieuwe reservering aangemaakt!' : 'Reservering bijgewerkt!';
+			showNotification(successMessage, 'success');
+			closeReserveringModal();
+			
+			// Reload the reserveringen table data
+			await reloadReserveringenTable();
+			
+		} catch (error) {
+			console.error('Error saving reservering:', error);
+			showNotification('Fout bij het opslaan van de reservering', 'error');
+		}
+	}
+	
+	// Helper function to format date to Dutch format (dd-mm-yyyy)
+	function formatDateToDutch(dateString) {
+		if (!dateString) return '';
+		try {
+			const date = new Date(dateString);
+			return date.toLocaleDateString('nl-NL', {
+				day: '2-digit',
+				month: '2-digit', 
+				year: 'numeric'
+			});
+		} catch (error) {
+			console.error('Error formatting date:', error);
+			return dateString;
+		}
+	}
+
+	async function reloadReserveringenTable() {
+		try {
+			console.log('Reloading reserveringen table...');
+			
+			// Fetch updated reserveringen data
+			const response = await fetch('/api/reserveringen');
+			if (!response.ok) {
+				throw new Error('Failed to fetch reserveringen');
+			}
+			
+			const reserveringen = await response.json();
+			console.log('Loaded reserveringen:', reserveringen);
+			
+			// Update the table body
+			const tbody = document.querySelector('table tbody');
+			if (!tbody) {
+				console.error('Table body not found');
+				return;
+			}
+			
+			// Generate new table rows - match original Astro template structure exactly
+			tbody.innerHTML = reserveringen.map(reservering => `
+				<tr class="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer reservering-row" 
+					data-reservering-id="${reservering.id}">
+					<td class="w-4 p-4">
+						<div class="flex items-center">
+							<input id="checkbox-${reservering.id}" aria-describedby="checkbox-1" type="checkbox" 
+								class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<label for="checkbox-${reservering.id}" class="sr-only">checkbox</label>
+						</div>
+					</td>
+					<td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+						<div class="text-base font-semibold text-gray-900 dark:text-white">
+							<data value="gast_naam">${reservering.gast_naam}</data>
+						</div>
+						<div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+							<data value="kamer">${reservering.kamer}</data>
+						</div>
+					</td>
+					<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						<data value="check_in">${formatDateToDutch(reservering.check_in)}</data>
+					</td>
+					<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						<data value="check_out">${formatDateToDutch(reservering.check_out)}</data>
+					</td>
+					<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						<span class="px-2 py-1 text-xs font-medium rounded-full ${
+							reservering.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+							reservering.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+							reservering.status === 'checked_in' ? 'bg-blue-100 text-blue-800' :
+							reservering.status === 'checked_out' ? 'bg-gray-100 text-gray-800' :
+							'bg-red-100 text-red-800'
+						}">
+							${reservering.status === 'confirmed' ? 'Bevestigd' :
+							  reservering.status === 'pending' ? 'Wachtlijst' :
+							  reservering.status === 'checked_in' ? 'Check-in' :
+							  reservering.status === 'checked_out' ? 'Check-out' :
+							  reservering.status === 'cancelled' ? 'Geannuleerd' :
+							  reservering.status === 'no_show' ? 'No-show' :
+							  reservering.status || 'Onbekend'}
+						</span>
+					</td>
+					<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						<data value="totaal_prijs">${reservering.totaal_prijs}</data>
+					</td>
+					<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						<span class="px-2 py-1 text-xs font-medium rounded-full ${
+							reservering.betaalstatus === 'paid' ? 'bg-green-100 text-green-800' :
+							reservering.betaalstatus === 'partial' ? 'bg-yellow-100 text-yellow-800' :
+							reservering.betaalstatus === 'refunded' ? 'bg-gray-100 text-gray-800' :
+							'bg-red-100 text-red-800'
+						}">
+							${reservering.betaalstatus === 'paid' ? 'Volledig Betaald' :
+							  reservering.betaalstatus === 'partial' ? 'Deels Betaald' :
+							  reservering.betaalstatus === 'pending' ? 'Niet Betaald' :
+							  reservering.betaalstatus === 'refunded' ? 'Terugbetaald' :
+							  reservering.betaalstatus || 'Onbekend'}
+						</span>
+					</td>
+				</tr>
+			`).join('');
+			
+			// Re-attach event listeners to new rows
+			attachRowEventListeners();
+			
+			console.log('Table reloaded successfully');
+			
+		} catch (error) {
+			console.error('Error reloading table:', error);
+		}
+	}
+	
+	function attachRowEventListeners() {
+		// Re-attach click event listeners to table rows
+		document.querySelectorAll('table tbody tr[data-reservering-id]').forEach(row => {
+			row.addEventListener('click', function() {
+				const reserveringId = this.getAttribute('data-reservering-id');
+				if (reserveringId) {
+					openReserveringModal(reserveringId);
+				}
+			});
+		});
+	}
+	
+	// Make functions globally available
+	window.openReserveringModal = openReserveringModal;
+	window.openNieuweReserveringModal = openNieuweReserveringModal;
+	window.closeReserveringModal = closeReserveringModal;
+	window.switchTab = switchTab;
+	window.saveReservering = saveReservering;
+	window.toggleGastSelector = toggleGastSelector;
+	window.selectGast = selectGast;
+	window.selectGastFromSearch = selectGastFromSearch;
+	window.selectGastFromSearchByElement = selectGastFromSearchByElement;
+	window.searchGasten = searchGasten;
+	window.activateGastSearch = activateGastSearch;
+	window.showGastResults = showGastResults;
+	window.confirmGastChange = confirmGastChange;
+	window.cancelGastChange = cancelGastChange;
+	window.showBestaandeGastSelector = showBestaandeGastSelector;
+	window.showBestaandeGastButton = showBestaandeGastButton;
+	window.showNewGastForm = showNewGastForm;
+	
+	// Format existing dates to Dutch format on page load
+	function formatExistingDates() {
+		document.querySelectorAll('data[value="check_in"], data[value="check_out"]').forEach(element => {
+			const originalDate = element.textContent.trim();
+			if (originalDate) {
+				element.textContent = formatDateToDutch(originalDate);
+			}
+		});
+	}
+
+	// Initialize event listeners when page loads
+	document.addEventListener('DOMContentLoaded', function() {
+		attachRowEventListeners();
+		formatExistingDates();
+	});
+</script>
+
+<script>
+	import './CrudEntities.client.js';
+</script>

@@ -1,0 +1,510 @@
+---
+/* Moderne Gasten CRUD Module */
+
+import { fetchData } from '../lib/data.js';
+import NavPagination from '../components/NavPagination.astro';
+
+const gasten = await fetchData('gasten');
+---
+
+<entities-crud type="gasten">
+	<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+		<div class="w-full mb-1">
+			<div class="mb-4">
+				<nav class="flex mb-5" aria-label="Breadcrumb">
+					<ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+						<li class="inline-flex items-center">
+							<a href="/" class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+								<svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20">
+									<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+								</svg>
+								Start
+							</a>
+						</li>
+						<li>
+							<div class="flex items-center">
+								<svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+								</svg>
+								<a href="/beheer" class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Beheer</a>
+							</div>
+						</li>
+						<li>
+							<div class="flex items-center">
+								<svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+								</svg>
+								<span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Gasten</span>
+							</div>
+						</li>
+					</ol>
+				</nav>
+				<h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+					Alle Gasten
+				</h1>
+			</div>
+			<div class="items-center justify-between block sm:flex">
+				<div class="flex items-center mb-4 sm:mb-0">
+					<form class="sm:pr-3" action="#" method="GET">
+						<label for="gasten-search" class="sr-only">Search</label>
+						<div class="relative w-48 mt-1 sm:w-64 xl:w-96">
+							<input
+								type="text"
+								name="search"
+								id="gasten-search"
+								class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								placeholder="Zoek gasten..."
+							/>
+						</div>
+					</form>
+				</div>
+				<div class="flex items-center ml-auto space-x-2 sm:space-x-3">
+					<button
+						id="createGastButton"
+						class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+						type="button"
+						onclick="openGastModal()"
+					>
+						<svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+						</svg>
+						Nieuwe Gast
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="flex flex-col">
+		<div class="overflow-x-auto">
+			<div class="inline-block min-w-full align-middle">
+				<div class="overflow-hidden shadow">
+					<table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
+						<thead class="bg-gray-100 dark:bg-gray-700">
+							<tr>
+								<th scope="col" class="p-4">
+									<div class="flex items-center">
+										<input
+											id="checkbox-all"
+											aria-describedby="checkbox-1"
+											type="checkbox"
+											class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+										/>
+										<label for="checkbox-all" class="sr-only">checkbox</label>
+									</div>
+								</th>
+								<th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+									Naam & Email
+								</th>
+								<th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+									Telefoon
+								</th>
+								<th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+									Land
+								</th>
+								<th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+									Status
+								</th>
+								<th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+									Laatste Reservering
+								</th>
+							</tr>
+						</thead>
+						<tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+							{
+								gasten.map((gast) => (
+									<tr 
+										class="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer gast-row"
+										data-gast-id={gast.id}
+									>
+										<td class="w-4 p-4">
+											<div class="flex items-center">
+												<input
+													id={`checkbox-${gast.id}`}
+													aria-describedby="checkbox-1"
+													type="checkbox"
+													class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+												/>
+												<label for={`checkbox-${gast.id}`} class="sr-only">checkbox</label>
+											</div>
+										</td>
+										<td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+											<div class="text-base font-semibold text-gray-900 dark:text-white">
+												{gast.name}
+											</div>
+											<div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+												{gast.email}
+											</div>
+										</td>
+										<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											{gast.phone || 'Niet opgegeven'}
+										</td>
+										<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											{gast.country}
+										</td>
+										<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											<span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+												Actief
+											</span>
+										</td>
+										<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											{gast.lastBooking || 'Geen reserveringen'}
+										</td>
+									</tr>
+								))
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<NavPagination />
+</entities-crud>
+
+<!-- Gast Detail Modal -->
+<div id="gast-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+	<div class="relative w-full max-w-4xl max-h-full">
+		<div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+			<div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+				<h3 class="text-xl font-semibold text-gray-900 dark:text-white" id="modal-title">
+					Gast Details
+				</h3>
+				<button
+					type="button"
+					class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+					onclick="closeGastModal()"
+				>
+					<svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
+						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+					</svg>
+					<span class="sr-only">Close modal</span>
+				</button>
+			</div>
+			
+			<!-- Modal content -->
+			<div class="p-6 space-y-6">
+				<div class="border-b border-gray-200 dark:border-gray-700">
+					<ul class="flex flex-wrap -mb-px text-sm font-medium text-center" role="tablist">
+						<li class="mr-2" role="presentation">
+							<button
+								class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 tab-button active"
+								data-tab="algemeen"
+								onclick="switchGastTab('algemeen')"
+							>
+								Algemeen
+							</button>
+						</li>
+						<li class="mr-2" role="presentation">
+							<button
+								class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 tab-button"
+								data-tab="reserveringen"
+								onclick="switchGastTab('reserveringen')"
+							>
+								Reserveringen
+							</button>
+						</li>
+						<li class="mr-2" role="presentation">
+							<button
+								class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 tab-button"
+								data-tab="opmerkingen"
+								onclick="switchGastTab('opmerkingen')"
+							>
+								Opmerkingen
+							</button>
+						</li>
+					</ul>
+				</div>
+
+				<!-- Algemeen Tab -->
+				<div id="tab-algemeen" class="tab-content">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div>
+							<label for="gast-naam" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Volledige Naam</label>
+							<input type="text" id="gast-naam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+						</div>
+						<div>
+							<label for="gast-email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+							<input type="email" id="gast-email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+						</div>
+						<div>
+							<label for="gast-telefoon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefoon</label>
+							<input type="tel" id="gast-telefoon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+						</div>
+						<div>
+							<label for="gast-land" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Land</label>
+							<input type="text" id="gast-land" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+						</div>
+						<div class="md:col-span-2">
+							<label for="gast-adres" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Adres</label>
+							<textarea id="gast-adres" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<!-- Reserveringen Tab -->
+				<div id="tab-reserveringen" class="tab-content hidden">
+					<div class="space-y-4">
+						<h4 class="text-lg font-semibold text-gray-900 dark:text-white">Reserveringen van deze gast</h4>
+						<div id="gast-reserveringen-list" class="space-y-3">
+							<!-- Reserveringen worden hier dynamisch geladen -->
+						</div>
+					</div>
+				</div>
+
+				<!-- Opmerkingen Tab -->
+				<div id="tab-opmerkingen" class="tab-content hidden">
+					<div class="space-y-4">
+						<div>
+							<label for="gast-opmerkingen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interne Opmerkingen</label>
+							<textarea id="gast-opmerkingen" rows="6" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Voeg interne opmerkingen toe over deze gast..."></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal footer -->
+			<div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+				<button type="button" onclick="saveGast()" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+					Opslaan
+				</button>
+				<button type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600" onclick="closeGastModal()">
+					Annuleren
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script define:vars={{ gasten }}>
+	let currentGastId = null;
+	let gastenData = [];
+
+	// Initialize gasten data
+	document.addEventListener('DOMContentLoaded', function() {
+		// Store gasten data for use in JavaScript
+		gastenData = gasten || [];
+		
+		// Add click listeners to table rows
+		document.querySelectorAll('.gast-row').forEach(row => {
+			row.addEventListener('click', function(e) {
+				// Don't trigger if clicking on checkbox
+				if (e.target.type === 'checkbox') return;
+				
+				const gastId = this.dataset.gastId;
+				openGastModal(gastId);
+			});
+		});
+	});
+
+	function openGastModal(gastId = null) {
+		currentGastId = gastId;
+		const modal = document.getElementById('gast-modal');
+		const title = document.getElementById('modal-title');
+		
+		if (gastId) {
+			title.textContent = 'Gast Bewerken';
+			loadGastData(gastId);
+		} else {
+			title.textContent = 'Nieuwe Gast';
+			clearGastForm();
+		}
+		
+		modal.classList.remove('hidden');
+		modal.setAttribute('aria-hidden', 'false');
+	}
+
+	function closeGastModal() {
+		const modal = document.getElementById('gast-modal');
+		modal.classList.add('hidden');
+		modal.setAttribute('aria-hidden', 'true');
+		currentGastId = null;
+	}
+
+	function loadGastData(gastId) {
+		const gast = gastenData.find(g => g.id == gastId);
+		if (!gast) return;
+		
+		document.getElementById('gast-naam').value = gast.name || '';
+		document.getElementById('gast-email').value = gast.email || '';
+		document.getElementById('gast-telefoon').value = gast.phone || '';
+		document.getElementById('gast-land').value = gast.country || '';
+		document.getElementById('gast-adres').value = gast.address || '';
+		document.getElementById('gast-opmerkingen').value = gast.notes || '';
+		
+		// Load reserveringen for this gast
+		loadGastReserveringen(gastId);
+	}
+
+	function clearGastForm() {
+		document.getElementById('gast-naam').value = '';
+		document.getElementById('gast-email').value = '';
+		document.getElementById('gast-telefoon').value = '';
+		document.getElementById('gast-land').value = '';
+		document.getElementById('gast-adres').value = '';
+		document.getElementById('gast-opmerkingen').value = '';
+		
+		// Clear reserveringen list
+		document.getElementById('gast-reserveringen-list').innerHTML = '';
+	}
+
+	function loadGastReserveringen(gastId) {
+		const container = document.getElementById('gast-reserveringen-list');
+		// Mock reserveringen data - in real app this would be fetched from API
+		const mockReserveringen = [
+			{ id: 1, dates: '15-20 Dec 2024', accommodation: 'Zeezicht Deluxe', status: 'Bevestigd' },
+			{ id: 2, dates: '22-25 Aug 2024', accommodation: 'Comfort Kamer', status: 'Voltooid' }
+		];
+		
+		container.innerHTML = mockReserveringen.map(res => `
+			<div class="p-3 border border-gray-200 rounded-lg dark:border-gray-600">
+				<div class="flex items-center justify-between">
+					<div>
+						<div class="font-medium text-gray-900 dark:text-white">${res.dates}</div>
+						<div class="text-sm text-gray-500 dark:text-gray-400">${res.accommodation}</div>
+					</div>
+					<span class="text-xs px-2 py-1 rounded ${res.status === 'Bevestigd' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">${res.status}</span>
+				</div>
+			</div>
+		`).join('');
+	}
+
+	function switchGastTab(tabName) {
+		// Hide all tab contents
+		document.querySelectorAll('.tab-content').forEach(content => {
+			content.classList.add('hidden');
+		});
+		
+		// Remove active state from all tab buttons
+		document.querySelectorAll('.tab-button').forEach(btn => {
+			btn.classList.remove('active', 'border-primary-600', 'text-primary-600');
+			btn.classList.add('border-transparent');
+		});
+		
+		// Show selected tab content
+		const selectedContent = document.getElementById(`tab-${tabName}`);
+		if (selectedContent) {
+			selectedContent.classList.remove('hidden');
+		}
+		
+		// Activate selected tab button
+		const selectedButton = document.querySelector(`[data-tab="${tabName}"]`);
+		if (selectedButton) {
+			selectedButton.classList.add('active', 'border-primary-600', 'text-primary-600');
+			selectedButton.classList.remove('border-transparent');
+		}
+	}
+
+	async function saveGast() {
+		const formData = {
+			name: document.getElementById('gast-naam').value,
+			email: document.getElementById('gast-email').value,
+			phone: document.getElementById('gast-telefoon').value,
+			country: document.getElementById('gast-land').value,
+			address: document.getElementById('gast-adres').value,
+			notes: document.getElementById('gast-opmerkingen').value
+		};
+		
+		// Validate required fields
+		if (!formData.name || !formData.email) {
+			showNotification('Naam en email zijn verplicht', 'error');
+			return;
+		}
+		
+		try {
+			let response;
+			let successMessage;
+			
+			if (currentGastId) {
+				// Update existing gast
+				formData.id = currentGastId;
+				response = await fetch('/api/gasten', {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(formData)
+				});
+				successMessage = 'Gast bijgewerkt!';
+			} else {
+				// Create new gast
+				response = await fetch('/api/gasten', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(formData)
+				});
+				successMessage = 'Nieuwe gast aangemaakt!';
+			}
+			
+			if (!response.ok) {
+				throw new Error('Failed to save gast');
+			}
+			
+			const result = await response.json();
+			console.log('Gast saved successfully:', result);
+			
+			showNotification(successMessage, 'success');
+			closeGastModal();
+			
+			// Refresh page to show updated data
+			setTimeout(() => {
+				window.location.reload();
+			}, 1000);
+			
+		} catch (error) {
+			console.error('Error saving gast:', error);
+			showNotification('Fout bij het opslaan van gast', 'error');
+		}
+	}
+
+	// Notification system (same as settings page)
+	function showNotification(message, type = 'success') {
+		// Create notification if it doesn't exist
+		let notification = document.getElementById('gast-notification');
+		if (!notification) {
+			notification = document.createElement('div');
+			notification.id = 'gast-notification';
+			notification.className = 'fixed top-4 right-4 z-50 hidden';
+			notification.innerHTML = `
+				<div class="flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg" role="alert">
+					<svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+						<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+					</svg>
+					<span class="sr-only">Info</span>
+					<div id="gast-notification-message"></div>
+				</div>
+			`;
+			document.body.appendChild(notification);
+		}
+		
+		const messageDiv = notification.querySelector('#gast-notification-message');
+		const alertDiv = notification.querySelector('[role="alert"]');
+		
+		// Set message
+		messageDiv.textContent = message;
+		
+		// Set colors based on type
+		if (type === 'success') {
+			alertDiv.className = 'flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg text-green-800 bg-green-50 dark:bg-gray-800 dark:text-green-400';
+		} else if (type === 'error') {
+			alertDiv.className = 'flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg text-red-800 bg-red-50 dark:bg-gray-800 dark:text-red-400';
+		} else {
+			alertDiv.className = 'flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg text-blue-800 bg-blue-50 dark:bg-gray-800 dark:text-blue-400';
+		}
+		
+		// Show notification
+		notification.classList.remove('hidden');
+		
+		// Hide after 3 seconds
+		setTimeout(() => {
+			notification.classList.add('hidden');
+		}, 3000);
+	}
+
+	// Make functions globally available
+	window.openGastModal = openGastModal;
+	window.closeGastModal = closeGastModal;
+	window.switchGastTab = switchGastTab;
+	window.saveGast = saveGast;
+</script>

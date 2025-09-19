@@ -1,0 +1,1011 @@
+---
+/* B&B Settings Module */
+---
+
+<!-- Notifications -->
+<div id="notification" class="fixed top-4 right-4 z-50 hidden">
+	<div class="flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg" role="alert">
+		<svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+			<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+		</svg>
+		<span class="sr-only">Info</span>
+		<div id="notification-message"></div>
+	</div>
+</div>
+
+<div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-4 xl:gap-4 dark:bg-gray-900">
+	<!-- Breadcrumb -->
+	<div class="mb-4 col-span-full xl:mb-2">
+		<nav class="flex mb-5" aria-label="Breadcrumb">
+			<ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+				<li class="inline-flex items-center">
+					<a href="/" class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+						<svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+						</svg>
+						Dashboard
+					</a>
+				</li>
+				<li>
+					<div class="flex items-center">
+						<svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+						</svg>
+						<span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Instellingen</span>
+					</div>
+				</li>
+			</ol>
+		</nav>
+		<h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+			B&B Instellingen
+		</h1>
+	</div>
+
+	<!-- Sidebar Navigation -->
+	<div class="col-span-1">
+		<div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
+			<nav class="space-y-2">
+				<button onclick="showTab('bedrijfsinfo')" id="tab-bedrijfsinfo" class="settings-tab-btn w-full flex items-center px-3 py-2 text-sm font-medium text-left rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300">
+					<svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+						<path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4z" clip-rule="evenodd"/>
+					</svg>
+					Bedrijfsinfo
+				</button>
+				
+				<button onclick="showTab('accommodatie')" id="tab-accommodatie" class="settings-tab-btn w-full flex items-center px-3 py-2 text-sm font-medium text-left rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+					<svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+						<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+					</svg>
+					Accommodatie
+				</button>
+			</nav>
+		</div>
+	</div>
+
+	<!-- Content Area -->
+	<div class="col-span-3">
+		<!-- Bedrijfsinfo Tab -->
+		<div id="content-bedrijfsinfo" class="settings-content">
+			<div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
+				<h3 class="mb-4 text-xl font-semibold dark:text-white">Bedrijfsgegevens</h3>
+				<form class="space-y-6">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div>
+							<label for="bedrijf-naam" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bedrijfsnaam *</label>
+							<input type="text" id="bedrijf-naam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Zee-zicht B&B" required>
+						</div>
+						<div>
+							<label for="business-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type bedrijf *</label>
+							<select id="business-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+								<option value="">Selecteer type...</option>
+								<option value="bnb">Bed & Breakfast</option>
+								<option value="minicamping">Minicamping</option>
+								<option value="camping">Camping</option>
+								<option value="hotel">Hotel</option>
+								<option value="vakantiepark">Vakantiepark</option>
+								<option value="glamping">Glamping</option>
+								<option value="hostel">Hostel</option>
+							</select>
+							<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Bepaalt automatisch de URL structuur van je website</p>
+						</div>
+						<div>
+							<label for="contact-email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Email *</label>
+							<input type="email" id="contact-email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="info@zee-zicht.nl" required>
+						</div>
+						<div>
+							<label for="website-url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Website URL</label>
+							<input type="url" id="website-url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="https://jouwdomein.nl">
+							<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">De URL waar je WordPress website draait</p>
+						</div>
+						<div>
+							<label for="bedrijf-telefoon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefoonnummer</label>
+							<input type="tel" id="bedrijf-telefoon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="+31 6 12345678">
+						</div>
+						<div>
+							<label for="btw-nummer" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">BTW Nummer</label>
+							<input type="text" id="btw-nummer" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="NL123456789B01" value="NL123456789B01">
+						</div>
+					</div>
+					<div>
+						<label for="bedrijf-adres" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bedrijfsadres</label>
+						<textarea id="bedrijf-adres" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Straatnaam 123, 1234 AB Stad">Zeezichtlaan 45
+1234 AB Zandvoort
+Nederland</textarea>
+					</div>
+					<div class="flex justify-end">
+						<button type="button" onclick="saveSettings('bedrijfsinfo')" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+							Opslaan
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- Accommodatie Tab -->
+		<div id="content-accommodatie" class="settings-content hidden">
+			<div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
+				<div class="flex items-center justify-between mb-4">
+					<h3 class="text-xl font-semibold dark:text-white">Accommodaties Beheer</h3>
+					<button type="button" onclick="openAccommodatieModal()" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+						+ Nieuwe Accommodatie
+					</button>
+				</div>
+				
+				<!-- Accommodaties Lijst -->
+				<div class="space-y-4" id="accommodaties-list">
+					<!-- Accommodaties worden hier dynamisch geladen -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Accommodatie Modal -->
+<div id="accommodatie-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+	<div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+		<div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onclick="closeAccommodatieModal()"></div>
+		
+		<div class="inline-block w-full max-w-4xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg dark:bg-gray-800">
+			<div class="flex items-center justify-between mb-6">
+				<h3 class="text-lg font-semibold text-gray-900 dark:text-white" id="modal-title">Nieuwe Accommodatie</h3>
+				<button onclick="closeAccommodatieModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+					</svg>
+				</button>
+			</div>
+			
+			<form class="space-y-6">
+				<!-- Basis Informatie -->
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<div>
+						<label for="acc-naam" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Accommodatie Naam *</label>
+						<input type="text" id="acc-naam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Basis Kampeerplaats" required>
+					</div>
+					<div>
+						<label for="acc-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type *</label>
+						<select id="acc-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+							<option value="">Selecteer type...</option>
+							<option value="kampeerplaats">Kampeerplaats</option>
+							<option value="bnb-kamer">B&B Kamer</option>
+							<option value="chalet">Chalet</option>
+							<option value="stacaravan">Stacaravan</option>
+							<option value="glamping">Glamping</option>
+						</select>
+					</div>
+					<div>
+						<label for="acc-max-gasten" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Max. Gasten *</label>
+						<input type="number" id="acc-max-gasten" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="7" min="1" required>
+					</div>
+					<div>
+						<label for="acc-oppervlakte" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Oppervlakte (m²)</label>
+						<input type="number" id="acc-oppervlakte" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="150">
+					</div>
+					<div>
+						<label for="acc-prijs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prijs per nacht (€) *</label>
+						<input type="number" step="0.01" id="acc-prijs" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="35.00" required>
+					</div>
+					<div>
+						<label for="acc-status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+						<select id="acc-status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+							<option value="actief">Actief</option>
+							<option value="inactief">Inactief</option>
+							<option value="onderhoud">Onderhoud</option>
+						</select>
+					</div>
+				</div>
+				
+				<!-- Beschrijving -->
+				<div>
+					<label for="acc-beschrijving" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Beschrijving *</label>
+					<textarea id="acc-beschrijving" rows="4" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Ruime kampeerplaats van 150 m² met 10 ampère stroom, water- en rioolaansluiting. Tevens is er ook kabeltelevisie aansluiting, gratis WiFi en liggen er bij elke plaats vlonders die je kosteloos kunt gebruiken." required></textarea>
+				</div>
+				
+				<!-- Voorzieningen -->
+				<div>
+					<label class="block mb-3 text-sm font-medium text-gray-900 dark:text-white">Voorzieningen</label>
+					<div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">10A Stroom</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">16A Stroom</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">Water aansluiting</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">Riool aansluiting</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">Gratis WiFi</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">Kabeltelevisie</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">Vlonders</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">Zeezicht</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">Balkon/Terras</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">Ontbijt</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">Airconditioning</span>
+						</label>
+						<label class="flex items-center">
+							<input type="checkbox" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+							<span class="ml-2 text-sm text-gray-900 dark:text-white">Parkeerplaats</span>
+						</label>
+					</div>
+				</div>
+				
+				<!-- Extra Informatie -->
+				<div>
+					<label for="acc-extra-info" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Extra Informatie</label>
+					<textarea id="acc-extra-info" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Heb je vragen? Zoek dan gerust contact met ons. Wij helpen je graag persoonlijk met jullie vakantiewens."></textarea>
+				</div>
+				
+				<!-- Buttons -->
+				<div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-600">
+					<button type="button" onclick="closeAccommodatieModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+						Annuleren
+					</button>
+					<button type="button" onclick="saveAccommodatie()" class="px-4 py-2 text-sm font-medium text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+						Opslaan
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Pricing Options Modal -->
+<div id="pricing-options-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+	<div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+		<div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onclick="closePricingOptionsModal()"></div>
+		
+		<div class="inline-block w-full max-w-6xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg dark:bg-gray-800">
+			<div class="flex items-center justify-between mb-6">
+				<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Opties & Tarieven Beheer</h3>
+				<button onclick="closePricingOptionsModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+					</svg>
+				</button>
+			</div>
+			
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+				<!-- Recurring Options -->
+				<div>
+					<div class="flex justify-between items-center mb-4">
+						<h4 class="text-md font-semibold text-gray-900 dark:text-white">Opties per Nacht</h4>
+						<button onclick="openAddOptionModal('recurring')" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-primary-600 dark:hover:bg-primary-700">
+							+ Nieuwe
+						</button>
+					</div>
+					<div id="recurring-options-list" class="space-y-2 max-h-96 overflow-y-auto">
+						<!-- Options will be loaded here -->
+					</div>
+				</div>
+
+				<!-- One-time Options -->
+				<div>
+					<div class="flex justify-between items-center mb-4">
+						<h4 class="text-md font-semibold text-gray-900 dark:text-white">Eenmalige Opties</h4>
+						<button onclick="openAddOptionModal('one_time')" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-primary-600 dark:hover:bg-primary-700">
+							+ Nieuwe
+						</button>
+					</div>
+					<div id="one-time-options-list" class="space-y-2 max-h-96 overflow-y-auto">
+						<!-- Options will be loaded here -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Add/Edit Option Modal -->
+<div id="option-modal" class="fixed inset-0 z-60 flex items-center justify-center hidden bg-black bg-opacity-50">
+	<div class="relative p-4 w-full max-w-2xl max-h-full">
+		<div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+			<div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
+				<h3 id="option-modal-title" class="text-lg font-semibold text-gray-900 dark:text-white">
+					Nieuwe Optie Toevoegen
+				</h3>
+				<button onclick="closeOptionModal()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+					<svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
+						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+					</svg>
+				</button>
+			</div>
+			<form id="option-form" class="p-4">
+				<input type="hidden" id="option-id" name="option_id">
+				<input type="hidden" id="option-category" name="category">
+				
+				<div class="grid gap-4 mb-4 grid-cols-2">
+					<div class="col-span-2">
+						<label for="option-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Naam</label>
+						<input type="text" id="option-name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Bijv. Elektrische aansluiting" required>
+					</div>
+					<div class="col-span-2">
+						<label for="option-description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Beschrijving</label>
+						<textarea id="option-description" name="description" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Optionele beschrijving..."></textarea>
+					</div>
+					<div>
+						<label for="option-price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prijs (€)</label>
+						<input type="number" id="option-price" name="price" step="0.01" min="0" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="0.00" required>
+					</div>
+					<div>
+						<label for="option-unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Eenheid</label>
+						<select id="option-unit" name="unit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white" required>
+							<option value="">Selecteer eenheid...</option>
+							<option value="per_night">Per nacht</option>
+							<option value="per_person_per_night">Per persoon per nacht</option>
+							<option value="per_stay">Per verblijf</option>
+							<option value="per_person">Per persoon</option>
+							<option value="per_day">Per dag</option>
+							<option value="per_week">Per week</option>
+							<option value="per_use">Per gebruik</option>
+						</select>
+					</div>
+				</div>
+				<div class="flex justify-end space-x-2">
+					<button type="button" onclick="closeOptionModal()" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">
+						Annuleren
+					</button>
+					<button type="submit" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700">
+						Opslaan
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Notification system
+	function showNotification(message, type = 'success') {
+		const notification = document.getElementById('notification');
+		const messageDiv = document.getElementById('notification-message');
+		const alertDiv = notification.querySelector('[role="alert"]');
+		
+		if (!notification || !messageDiv || !alertDiv) return;
+		
+		// Set message
+		messageDiv.textContent = message;
+		
+		// Set colors based on type
+		if (type === 'success') {
+			alertDiv.className = 'flex items-center p-4 mb-4 text-sm rounded-lg text-green-800 bg-green-50 dark:bg-gray-800 dark:text-green-400';
+		} else if (type === 'error') {
+			alertDiv.className = 'flex items-center p-4 mb-4 text-sm rounded-lg text-red-800 bg-red-50 dark:bg-gray-800 dark:text-red-400';
+		} else {
+			alertDiv.className = 'flex items-center p-4 mb-4 text-sm rounded-lg text-blue-800 bg-blue-50 dark:bg-gray-800 dark:text-blue-400';
+		}
+		
+		// Show notification
+		notification.classList.remove('hidden');
+		
+		// Auto hide after 3 seconds
+		setTimeout(() => {
+			notification.classList.add('hidden');
+		}, 3000);
+	}
+
+	// Tab switching
+	function showTab(tabName) {
+		// Hide all content sections
+		document.querySelectorAll('.settings-content').forEach(content => {
+			content.classList.add('hidden');
+		});
+		
+		// Remove active class from all tabs
+		document.querySelectorAll('.settings-tab-btn').forEach(btn => {
+			btn.classList.remove('bg-primary-100', 'text-primary-700', 'dark:bg-primary-900', 'dark:text-primary-300');
+			btn.classList.add('text-gray-700', 'dark:text-gray-300');
+		});
+		
+		// Show selected content
+		const contentElement = document.getElementById(`content-${tabName}`);
+		if (contentElement) {
+			contentElement.classList.remove('hidden');
+		}
+		
+		// Add active class to selected tab
+		const activeTab = document.getElementById(`tab-${tabName}`);
+		if (activeTab) {
+			activeTab.classList.add('bg-primary-100', 'text-primary-700', 'dark:bg-primary-900', 'dark:text-primary-300');
+			activeTab.classList.remove('text-gray-700', 'dark:text-gray-300');
+		}
+		
+		// Load accommodaties when accommodatie tab is shown
+		if (tabName === 'accommodatie') {
+			loadAccommodaties();
+		}
+	}
+
+	// Save settings
+	async function saveSettings(section) {
+		try {
+			const formData = {};
+			
+			if (section === 'bedrijfsinfo') {
+				formData.bedrijf_naam = document.getElementById('bedrijf-naam').value;
+				formData.business_type = document.getElementById('business-type').value;
+				formData.contact_email = document.getElementById('contact-email').value;
+				formData.website_url = document.getElementById('website-url').value;
+				formData.bedrijf_telefoon = document.getElementById('bedrijf-telefoon').value;
+				formData.bedrijf_adres = document.getElementById('bedrijf-adres').value;
+				formData.kvk_nummer = document.getElementById('kvk-nummer').value;
+				formData.btw_nummer = document.getElementById('btw-nummer').value;
+				formData.bedrijf_adres = document.getElementById('bedrijf-adres').value;
+			} else if (section === 'accommodatie') {
+				formData.bnb_naam = document.getElementById('bnb-naam').value;
+				formData.aantal_kamers = document.getElementById('aantal-kamers').value;
+				formData.bnb_beschrijving = document.getElementById('bnb-beschrijving').value;
+			}
+			
+			// Validate required fields
+			if (section === 'bedrijfsinfo' && (!formData.bedrijf_naam || !formData.contact_email)) {
+				showNotification('Bedrijfsnaam en contact email zijn verplicht', 'error');
+				return;
+			}
+			
+			// Make API call to save settings (using Astro API)
+			const response = await fetch('/api/settings', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					section: section,
+					data: formData
+				})
+			});
+			
+			if (!response.ok) {
+				throw new Error('Failed to save settings');
+			}
+			
+			const result = await response.json();
+			console.log('Settings saved successfully:', result);
+			
+			// Show success notification
+			showNotification(`${section} instellingen opgeslagen!`, 'success');
+			
+		} catch (error) {
+			console.error('Error saving settings:', error);
+			showNotification('Fout bij het opslaan van instellingen', 'error');
+		}
+	}
+
+	// Accommodatie Management
+	let currentAccommodatieId = null;
+	let accommodaties = []; // Will be loaded from API
+
+	function openAccommodatieModal(id = null) {
+		currentAccommodatieId = id;
+		const modal = document.getElementById('accommodatie-modal');
+		const title = document.getElementById('modal-title');
+		
+		if (id) {
+			title.textContent = 'Accommodatie Bewerken';
+			loadAccommodatieData(id);
+		} else {
+			title.textContent = 'Nieuwe Accommodatie';
+			clearAccommodatieForm();
+		}
+		
+		modal.classList.remove('hidden');
+	}
+
+	function closeAccommodatieModal() {
+		document.getElementById('accommodatie-modal').classList.add('hidden');
+		currentAccommodatieId = null;
+	}
+
+	function loadAccommodatieData(id) {
+		console.log('Loading accommodatie data for ID:', id);
+		console.log('Available accommodaties:', accommodaties);
+		
+		const acc = accommodaties.find(a => a.id === id || a.id == id);
+		if (!acc) {
+			console.error('Accommodatie not found with id:', id);
+			console.error('Available IDs:', accommodaties.map(a => a.id));
+			return;
+		}
+		
+		console.log('Found accommodatie:', acc);
+		
+		// Map database fields to form fields with better error handling
+		const setFieldValue = (fieldId, value) => {
+			const field = document.getElementById(fieldId);
+			if (field) {
+				field.value = value || '';
+				console.log(`Set ${fieldId} to:`, value);
+			} else {
+				console.error(`Field not found: ${fieldId}`);
+			}
+		};
+		
+		setFieldValue('acc-naam', acc.name);
+		setFieldValue('acc-type', acc.type);
+		setFieldValue('acc-max-gasten', acc.max_guests);
+		// Surface area is stored as number, display as number for editing
+		setFieldValue('acc-oppervlakte', acc.surface_area || '');
+		setFieldValue('acc-prijs', acc.base_price);
+		setFieldValue('acc-status', acc.active ? 'actief' : 'inactief');
+		setFieldValue('acc-beschrijving', acc.description);
+		setFieldValue('acc-extra-info', acc.extra_info);
+		
+		// Set voorzieningen checkboxes
+		const checkboxes = document.querySelectorAll('#accommodatie-modal input[type="checkbox"]');
+		console.log('Found checkboxes:', checkboxes.length);
+		console.log('Accommodatie amenities:', acc.amenities);
+		
+		checkboxes.forEach(cb => {
+			const label = cb.nextElementSibling ? cb.nextElementSibling.textContent.trim() : '';
+			const isChecked = acc.amenities && acc.amenities.includes(label);
+			cb.checked = isChecked;
+			console.log(`Checkbox "${label}": ${isChecked} (amenities: ${JSON.stringify(acc.amenities)})`);
+		});
+	}
+
+	function clearAccommodatieForm() {
+		document.getElementById('acc-naam').value = '';
+		document.getElementById('acc-type').value = '';
+		document.getElementById('acc-max-gasten').value = '';
+		document.getElementById('acc-oppervlakte').value = '';
+		document.getElementById('acc-prijs').value = '';
+		document.getElementById('acc-status').value = 'actief';
+		document.getElementById('acc-beschrijving').value = '';
+		document.getElementById('acc-extra-info').value = '';
+		
+		// Clear checkboxes
+		document.querySelectorAll('#accommodatie-modal input[type="checkbox"]').forEach(cb => {
+			cb.checked = false;
+		});
+	}
+
+	async function saveAccommodatie() {
+		// Collect form data
+		const formData = {
+			naam: document.getElementById('acc-naam').value,
+			type: document.getElementById('acc-type').value,
+			maxGasten: parseInt(document.getElementById('acc-max-gasten').value),
+			oppervlakte: document.getElementById('acc-oppervlakte').value || null, // Store as string number (no m²)
+			prijs: parseFloat(document.getElementById('acc-prijs').value),
+			status: document.getElementById('acc-status').value,
+			beschrijving: document.getElementById('acc-beschrijving').value,
+			extraInfo: document.getElementById('acc-extra-info').value,
+			voorzieningen: []
+		};
+		
+		// Collect voorzieningen
+		document.querySelectorAll('#accommodatie-modal input[type="checkbox"]:checked').forEach(cb => {
+			const label = cb.nextElementSibling ? cb.nextElementSibling.textContent.trim() : '';
+			if (label) {
+				formData.voorzieningen.push(label);
+			}
+		});
+		
+		console.log('Collected voorzieningen:', formData.voorzieningen);
+		
+		// Validate required fields
+		if (!formData.naam || !formData.type || !formData.maxGasten || !formData.prijs || !formData.beschrijving) {
+			showNotification('Vul alle verplichte velden in', 'error');
+			return;
+		}
+		
+		try {
+			let response;
+			let successMessage;
+			
+			if (currentAccommodatieId) {
+				// Update existing accommodatie
+				formData.id = currentAccommodatieId;
+				response = await fetch('/api/accommodaties', {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(formData)
+				});
+				successMessage = 'Accommodatie bijgewerkt!';
+			} else {
+				// Create new accommodatie
+				response = await fetch('/api/accommodaties', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(formData)
+				});
+				successMessage = 'Nieuwe accommodatie aangemaakt!';
+			}
+			
+			if (!response.ok) {
+				throw new Error('Failed to save accommodatie');
+			}
+			
+			const result = await response.json();
+			console.log('Accommodatie saved successfully:', result);
+			
+			// Reload accommodaties from API to get updated data
+			await loadAccommodaties();
+			
+			showNotification(successMessage, 'success');
+			closeAccommodatieModal();
+			
+		} catch (error) {
+			console.error('Error saving accommodatie:', error);
+			showNotification('Fout bij het opslaan van accommodatie', 'error');
+		}
+	}
+
+	function editAccommodatie(id) {
+		openAccommodatieModal(id);
+	}
+
+	async function deleteAccommodatie(id) {
+		if (confirm('Weet je zeker dat je deze accommodatie wilt verwijderen?')) {
+			try {
+				const response = await fetch(`/api/accommodaties?id=${id}`, {
+					method: 'DELETE'
+				});
+				
+				if (!response.ok) {
+					throw new Error('Failed to delete accommodatie');
+				}
+				
+				const result = await response.json();
+				console.log('Accommodatie deleted successfully:', result);
+				
+				// Reload accommodaties from API
+				await loadAccommodaties();
+				
+				showNotification('Accommodatie verwijderd', 'success');
+			} catch (error) {
+				console.error('Error deleting accommodatie:', error);
+				showNotification('Fout bij het verwijderen van accommodatie', 'error');
+			}
+		}
+	}
+
+	function getTypeColor(type) {
+		const colors = {
+			'kampeerplaats': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+			'bnb-kamer': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
+			'chalet': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+			'stacaravan': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+			'glamping': 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300'
+		};
+		return colors[type] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
+	}
+
+	function getStatusColor(status) {
+		const colors = {
+			'actief': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+			'inactief': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+			'onderhoud': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300'
+		};
+		return colors[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
+	}
+
+	async function loadAccommodaties() {
+		try {
+			const response = await fetch('/api/accommodaties');
+			const result = await response.json();
+			
+			if (result.success) {
+				accommodaties = result.data; // Update the global accommodaties array
+				const container = document.getElementById('accommodaties-list');
+				
+				if (accommodaties.length === 0) {
+					container.innerHTML = '<p class="text-gray-500 text-center py-8">Nog geen accommodaties toegevoegd.</p>';
+					return;
+				}
+				
+				container.innerHTML = accommodaties.map(acc => `
+					<div class="border border-gray-200 rounded-lg p-4 dark:border-gray-600">
+						<div class="flex items-start justify-between">
+							<div class="flex-1">
+								<div class="flex items-center gap-3 mb-2">
+									<h4 class="text-lg font-semibold text-gray-900 dark:text-white">${acc.name}</h4>
+									<span class="bg-${acc.active ? 'green' : 'red'}-100 text-${acc.active ? 'green' : 'red'}-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-${acc.active ? 'green' : 'red'}-900 dark:text-${acc.active ? 'green' : 'red'}-300">
+										${acc.active ? 'Actief' : 'Inactief'}
+									</span>
+									<span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+										${getTypeLabel(acc.type)}
+									</span>
+								</div>
+								<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+									<div class="text-sm">
+										<span class="font-medium text-gray-500 dark:text-gray-400">Max. gasten:</span>
+										<span class="text-gray-900 dark:text-white ml-1">${acc.max_guests}</span>
+									</div>
+									<div class="text-sm">
+										<span class="font-medium text-gray-500 dark:text-gray-400">Oppervlakte:</span>
+										<span class="text-gray-900 dark:text-white ml-1">${acc.surface_area} m²</span>
+									</div>
+									<div class="text-sm">
+										<span class="font-medium text-gray-500 dark:text-gray-400">Prijs/nacht:</span>
+										<span class="text-gray-900 dark:text-white ml-1">€${parseFloat(acc.base_price).toFixed(2)}</span>
+									</div>
+								</div>
+								<p class="text-sm text-gray-600 dark:text-gray-400 mb-3">${acc.description}</p>
+								<div class="flex flex-wrap gap-1">
+									${(acc.amenities || []).map(amenity => 
+										`<span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded dark:bg-gray-700 dark:text-gray-300">${amenity}</span>`
+									).join('')}
+								</div>
+							</div>
+							<div class="flex flex-col gap-2 ml-4">
+								<button onclick="openPricingOptions('${acc.id}')" class="text-blue-600 hover:text-blue-700 text-sm font-medium whitespace-nowrap">Opties & Tarieven</button>
+								<div class="flex items-center gap-2">
+									<button onclick="editAccommodatie('${acc.id}')" class="text-primary-600 hover:text-primary-700 text-sm font-medium">Bewerken</button>
+									<button onclick="deleteAccommodatie('${acc.id}')" class="text-red-600 hover:text-red-700 text-sm font-medium">Verwijderen</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				`).join('');
+			}
+		} catch (error) {
+			console.error('Error loading accommodaties:', error);
+		}
+	}
+
+	function getTypeLabel(type) {
+		const labels = {
+			'kampeerplaats': 'Kampeerplaats',
+			'bnb-kamer': 'B&B Kamer',
+			'chalet': 'Chalet',
+			'stacaravan': 'Stacaravan',
+			'glamping': 'Glamping'
+		};
+		return labels[type] || type;
+	}
+
+
+	// Load saved settings from API
+	async function loadSavedSettings() {
+		try {
+			const response = await fetch('/api/settings');
+			if (response.ok) {
+				const result = await response.json();
+				const settings = result.data;
+				
+				// Load bedrijfsinfo settings
+				if (settings.bedrijfsinfo) {
+					const bedrijf = settings.bedrijfsinfo;
+					if (bedrijf.bedrijf_naam) document.getElementById('bedrijf-naam').value = bedrijf.bedrijf_naam;
+					if (bedrijf.business_type) document.getElementById('business-type').value = bedrijf.business_type;
+					if (bedrijf.contact_email) document.getElementById('contact-email').value = bedrijf.contact_email;
+					if (bedrijf.website_url) document.getElementById('website-url').value = bedrijf.website_url;
+					if (bedrijf.bedrijf_telefoon) document.getElementById('bedrijf-telefoon').value = bedrijf.bedrijf_telefoon;
+					if (bedrijf.bedrijf_adres) document.getElementById('bedrijf-adres').value = bedrijf.bedrijf_adres;
+					if (bedrijf.kvk_nummer) document.getElementById('kvk-nummer').value = bedrijf.kvk_nummer;
+					if (bedrijf.btw_nummer) document.getElementById('btw-nummer').value = bedrijf.btw_nummer;
+				}
+				
+				console.log('Settings loaded successfully:', settings);
+			}
+		} catch (error) {
+			console.error('Error loading settings:', error);
+		}
+	}
+
+	// Pricing Options Management
+	let currentAccommodationId = null;
+	let currentEditingOption = null;
+
+	async function openPricingOptions(accommodationId) {
+		currentAccommodationId = accommodationId;
+		document.getElementById('pricing-options-modal').classList.remove('hidden');
+		await loadPricingOptions();
+	}
+
+	function closePricingOptionsModal() {
+		document.getElementById('pricing-options-modal').classList.add('hidden');
+		currentAccommodationId = null;
+	}
+
+	async function loadPricingOptions() {
+		if (!currentAccommodationId) return;
+
+		try {
+			const response = await fetch(`/api/accommodation-options?accommodation_id=${currentAccommodationId}`);
+			const result = await response.json();
+			
+			if (result.success) {
+				displayPricingOptions(result.data);
+			}
+		} catch (error) {
+			console.error('Error loading pricing options:', error);
+			showNotification('Fout bij het laden van opties', 'error');
+		}
+	}
+
+	function displayPricingOptions(options) {
+		// Display recurring options
+		const recurringContainer = document.getElementById('recurring-options-list');
+		recurringContainer.innerHTML = options.recurring.map(option => createOptionCard(option)).join('');
+		
+		// Display one-time options
+		const oneTimeContainer = document.getElementById('one-time-options-list');
+		oneTimeContainer.innerHTML = options.one_time.map(option => createOptionCard(option)).join('');
+	}
+
+	function createOptionCard(option) {
+		const price = option.category === 'recurring' ? option.price_per_night : option.price_per_stay;
+		return `
+			<div class="p-3 bg-gray-50 rounded-lg border dark:bg-gray-600 dark:border-gray-500">
+				<div class="flex justify-between items-start">
+					<div class="flex-1">
+						<h5 class="font-medium text-gray-900 dark:text-white text-sm">${option.name}</h5>
+						<p class="text-xs text-gray-600 dark:text-gray-300 mt-1">${option.description || ''}</p>
+						<p class="text-xs font-medium text-primary-600 dark:text-primary-400 mt-1">
+							€${price} ${getUnitLabel(option.unit)}
+						</p>
+					</div>
+					<div class="flex space-x-1 ml-2">
+						<button onclick="editPricingOption('${option.id}')" class="text-primary-600 hover:text-primary-900 dark:text-primary-400">
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+							</svg>
+						</button>
+						<button onclick="deletePricingOption('${option.id}')" class="text-red-600 hover:text-red-900 dark:text-red-400">
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+		`;
+	}
+
+	function getUnitLabel(unit) {
+		const labels = {
+			'per_night': 'per nacht',
+			'per_person_per_night': 'per persoon per nacht',
+			'per_stay': 'per verblijf',
+			'per_person': 'per persoon',
+			'per_day': 'per dag',
+			'per_week': 'per week',
+			'per_use': 'per gebruik'
+		};
+		return labels[unit] || unit;
+	}
+
+	function openAddOptionModal(category) {
+		currentEditingOption = null;
+		document.getElementById('option-modal-title').textContent = 'Nieuwe Optie Toevoegen';
+		document.getElementById('option-category').value = category;
+		document.getElementById('option-form').reset();
+		document.getElementById('option-modal').classList.remove('hidden');
+	}
+
+	function closeOptionModal() {
+		document.getElementById('option-modal').classList.add('hidden');
+	}
+
+	async function editPricingOption(optionId) {
+		// Implementation for editing option
+		console.log('Edit option:', optionId);
+	}
+
+	async function deletePricingOption(optionId) {
+		if (confirm('Weet je zeker dat je deze optie wilt verwijderen?')) {
+			try {
+				const response = await fetch('/api/accommodation-options', {
+					method: 'DELETE',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ id: optionId })
+				});
+
+				const result = await response.json();
+				
+				if (result.success) {
+					showNotification('Optie verwijderd!', 'success');
+					await loadPricingOptions(); // Reload options
+				} else {
+					showNotification('Fout: ' + result.message, 'error');
+				}
+			} catch (error) {
+				console.error('Error deleting option:', error);
+				showNotification('Er is een fout opgetreden bij het verwijderen.', 'error');
+			}
+		}
+	}
+
+	// Form submission for pricing options
+	document.getElementById('option-form').addEventListener('submit', async function(e) {
+		e.preventDefault();
+		
+		const formData = new FormData(this);
+		const data = {
+			accommodation_id: currentAccommodationId,
+			category: formData.get('category'),
+			name: formData.get('name'),
+			description: formData.get('description'),
+			unit: formData.get('unit'),
+			sort_order: 0
+		};
+
+		// Set price based on category
+		if (data.category === 'recurring') {
+			data.price_per_night = formData.get('price');
+		} else {
+			data.price_per_stay = formData.get('price');
+		}
+
+		try {
+			const method = currentEditingOption ? 'PUT' : 'POST';
+			if (currentEditingOption) {
+				data.id = currentEditingOption;
+			}
+
+			const response = await fetch('/api/accommodation-options', {
+				method: method,
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data)
+			});
+
+			const result = await response.json();
+			
+			if (result.success) {
+				closeOptionModal();
+				await loadPricingOptions(); // Reload options
+				showNotification(currentEditingOption ? 'Optie bijgewerkt!' : 'Optie toegevoegd!', 'success');
+			} else {
+				showNotification('Fout: ' + result.message, 'error');
+			}
+		} catch (error) {
+			console.error('Error saving option:', error);
+			showNotification('Er is een fout opgetreden bij het opslaan.', 'error');
+		}
+	});
+
+	// Initialize when DOM is loaded
+	document.addEventListener('DOMContentLoaded', function() {
+		loadSavedSettings();
+		showTab('bedrijfsinfo');
+	});
+
+	// Make functions globally available
+	window.showTab = showTab;
+	window.saveSettings = saveSettings;
+	window.showNotification = showNotification;
+	window.openAccommodatieModal = openAccommodatieModal;
+	window.closeAccommodatieModal = closeAccommodatieModal;
+	window.saveAccommodatie = saveAccommodatie;
+	window.editAccommodatie = editAccommodatie;
+	window.deleteAccommodatie = deleteAccommodatie;
+	window.loadSavedSettings = loadSavedSettings;
+	window.openPricingOptions = openPricingOptions;
+	window.closePricingOptionsModal = closePricingOptionsModal;
+	window.openAddOptionModal = openAddOptionModal;
+	window.closeOptionModal = closeOptionModal;
+	window.editPricingOption = editPricingOption;
+	window.deletePricingOption = deletePricingOption;
+</script>
