@@ -1,0 +1,96 @@
+/**
+ * ZeeZicht Booking Pro - Admin Styles
+ * Simple, clean admin interface styling
+ */
+
+.zzbp-dashboard-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.zzbp-widget {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.zzbp-widget h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+#zzbp-api-status {
+    margin-top: 10px;
+}
+
+#zzbp-api-result {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.zzbp-settings-section {
+    margin-bottom: 30px;
+}
+
+.zzbp-settings-section h3 {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Admin table styling */
+.zzbp-admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.zzbp-admin-table th,
+.zzbp-admin-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.zzbp-admin-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+}
+
+.zzbp-admin-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Status indicators */
+.zzbp-status-success {
+    color: #00a32a;
+}
+
+.zzbp-status-error {
+    color: #d63638;
+}
+
+.zzbp-status-warning {
+    color: #dba617;
+}
+
+/* Loading states */
+.zzbp-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.zzbp-loading::after {
+    content: " Loading...";
+    color: #666;
+    font-style: italic;
+}

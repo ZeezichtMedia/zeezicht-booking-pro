@@ -1,0 +1,627 @@
+/* Airbnb-Inspired Booking Form Styles */
+
+.zzbp-modern-booking {
+    font-family: 'Cereal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    line-height: 1.43 !important;
+    color: #222222 !important;
+    background: #f7f7f7 !important;
+    min-height: auto !important;
+    padding: 24px 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+}
+
+/* Force sidebar to stay on the right on larger screens */
+@media (min-width: 1024px) {
+    .zzbp-booking-container {
+        display: flex !important;
+        gap: 2rem !important;
+        align-items: flex-start !important;
+    }
+    
+    .zzbp-form-area {
+        flex: 2 !important;
+        min-width: 0 !important;
+    }
+    
+    .zzbp-sidebar {
+        flex: 1 !important;
+        max-width: 400px !important;
+        min-width: 320px !important;
+    }
+}
+
+.zzbp-booking-container {
+    max-width: 1120px !important;
+    margin: 0 auto !important;
+    display: grid !important;
+    grid-template-columns: 1fr 320px !important;
+    gap: 24px !important;
+    padding: 0 24px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Form Area - Airbnb Style */
+.zzbp-form-area {
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
+    border: 1px solid #dddddd !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.zzbp-form-header {
+    background: white !important;
+    color: #222222 !important;
+    padding: 32px 32px 24px 32px !important;
+    text-align: left !important;
+    margin: 0 !important;
+    border-bottom: 1px solid #ebebeb !important;
+}
+
+.zzbp-form-title {
+    margin: 0 0 8px 0 !important;
+    font-size: 32px !important;
+    font-weight: 600 !important;
+    color: #222222 !important;
+    text-shadow: none !important;
+    letter-spacing: -0.02em !important;
+}
+
+.zzbp-booking-dates {
+    font-size: 16px !important;
+    color: #717171 !important;
+    margin: 0 !important;
+    font-weight: 400 !important;
+}
+
+/* Step Form - Airbnb Style */
+.zzbp-step-form {
+    padding: 32px !important;
+}
+
+.zzbp-step {
+    animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.zzbp-step-title {
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    margin: 0 0 8px 0 !important;
+    color: #222222 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    letter-spacing: -0.01em !important;
+}
+
+.zzbp-step-description {
+    color: #717171 !important;
+    margin: 0 0 24px 0 !important;
+    font-size: 16px !important;
+    line-height: 1.43 !important;
+}
+
+.zzbp-step-content {
+    margin-bottom: 40px;
+}
+
+/* Date Inputs - Airbnb Style */
+.zzbp-date-inputs {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0 !important;
+    margin-bottom: 24px !important;
+    border: 1px solid #dddddd !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.zzbp-date-group {
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+}
+
+.zzbp-date-group:first-child {
+    border-right: 1px solid #dddddd !important;
+}
+
+.zzbp-date-group label {
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    color: #222222 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    padding: 14px 12px 0 12px !important;
+    margin: 0 !important;
+}
+
+.zzbp-date-group input {
+    padding: 0 12px 14px 12px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    color: #222222 !important;
+    background: white !important;
+    transition: all 0.15s ease !important;
+}
+
+.zzbp-date-group input:focus {
+    outline: none !important;
+    background: #f7f7f7 !important;
+}
+
+.zzbp-date-inputs:focus-within {
+    border-color: #222222 !important;
+    box-shadow: 0 0 0 2px #222222 !important;
+}
+
+/* Guest Inputs */
+.zzbp-guest-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.zzbp-guest-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.zzbp-guest-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.zzbp-guest-group select {
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.zzbp-guest-group select:focus {
+    outline: none;
+    border-color: #222222;
+    box-shadow: 0 0 0 2px rgba(34, 34, 34, 0.1);
+}
+
+.zzbp-minimum-notice {
+    background: #f8f9fa;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #17a2b8;
+    margin-bottom: 30px;
+}
+
+/* Options Table */
+.zzbp-options-section {
+    margin-bottom: 30px;
+}
+
+.zzbp-options-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+}
+
+.zzbp-options-table {
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.zzbp-option-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #e1e5e9;
+    gap: 20px;
+}
+
+.zzbp-option-row:last-child {
+    border-bottom: none;
+}
+
+.zzbp-option-row:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.zzbp-option-info strong {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.zzbp-option-info small {
+    color: #666;
+    font-size: 14px;
+}
+
+.zzbp-option-control select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 120px;
+}
+
+.zzbp-option-total {
+    font-weight: 600;
+    color: #27ae60;
+    min-width: 80px;
+    text-align: right;
+}
+
+/* Guest Form */
+.zzbp-guest-form {
+    margin-bottom: 30px;
+}
+
+.zzbp-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.zzbp-form-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.zzbp-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.zzbp-form-col label,
+.zzbp-form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.zzbp-form-col input,
+.zzbp-form-group input,
+.zzbp-form-group textarea {
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.zzbp-form-col input:focus,
+.zzbp-form-group input:focus,
+.zzbp-form-group textarea:focus {
+    outline: none;
+    border-color: #222222;
+    box-shadow: 0 0 0 2px rgba(34, 34, 34, 0.1);
+}
+
+/* Step Actions */
+.zzbp-step-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding-top: 30px;
+    border-top: 1px solid #e1e5e9;
+}
+
+.zzbp-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.zzbp-btn-primary {
+    background: #ff385c !important;
+    color: white !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    padding: 14px 24px !important;
+    font-size: 16px !important;
+}
+
+.zzbp-btn-primary:hover {
+    background: #e31c5f !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 16px rgba(255, 56, 92, 0.3) !important;
+}
+
+.zzbp-btn-secondary {
+    background: white !important;
+    color: #222222 !important;
+    border: 1px solid #dddddd !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+}
+
+.zzbp-btn-secondary:hover {
+    background: #f7f7f7 !important;
+    border-color: #222222 !important;
+}
+
+.zzbp-btn-success {
+    background: #ff385c !important;
+    color: white !important;
+    padding: 16px 32px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    border: none !important;
+}
+
+.zzbp-btn-success:hover {
+    background: #e31c5f !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(255, 56, 92, 0.4) !important;
+}
+
+/* Sidebar - Airbnb Style */
+.zzbp-sidebar {
+    position: sticky !important;
+    top: 24px !important;
+    height: fit-content !important;
+}
+
+.zzbp-sidebar-content {
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
+    border: 1px solid #dddddd !important;
+    overflow: hidden !important;
+}
+
+/* Accommodation Info */
+.zzbp-accommodation-info {
+    padding: 20px;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.zzbp-accommodation-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.zzbp-accommodation-placeholder {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #ff385c 0%, #e31c5f 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.zzbp-accommodation-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    color: #2c3e50;
+}
+
+.zzbp-accommodation-type {
+    color: #666;
+    margin: 0;
+    text-transform: capitalize;
+}
+
+/* Booking Summary */
+.zzbp-booking-summary {
+    padding: 20px;
+}
+
+.zzbp-booking-summary h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+}
+
+.zzbp-booking-summary h4:not(:first-child) {
+    margin-top: 20px;
+}
+
+.zzbp-summary-dates {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.zzbp-summary-nights {
+    font-size: 12px;
+    color: #999;
+}
+
+.zzbp-summary-guests {
+    font-size: 14px;
+    color: #666;
+}
+
+.zzbp-summary-guests div {
+    margin-bottom: 3px;
+}
+
+/* Price Breakdown */
+.zzbp-price-breakdown {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e5e9;
+}
+
+.zzbp-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.zzbp-price-total {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e1e5e9;
+    font-size: 16px;
+}
+
+.zzbp-price-total strong {
+    color: #2c3e50;
+}
+
+/* Messages */
+.zzbp-messages {
+    margin-bottom: 20px;
+}
+
+.zzbp-message {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.zzbp-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.zzbp-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.zzbp-message.info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .zzbp-booking-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .zzbp-sidebar {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .zzbp-modern-booking {
+        padding: 10px 0;
+    }
+    
+    .zzbp-booking-container {
+        padding: 0 10px;
+    }
+    
+    .zzbp-step-form {
+        padding: 20px;
+    }
+    
+    .zzbp-form-header {
+        padding: 20px;
+    }
+    
+    .zzbp-form-title {
+        font-size: 24px;
+    }
+    
+    .zzbp-date-inputs {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .zzbp-form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .zzbp-option-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        text-align: left;
+    }
+    
+    .zzbp-option-total {
+        text-align: left;
+    }
+    
+    .zzbp-step-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .zzbp-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Loading States */
+.zzbp-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.zzbp-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #ff385c;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
