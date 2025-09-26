@@ -1,8 +1,8 @@
 <?php
 /**
- * Template Part: Photo Gallery - WORKING VERSION
+ * Template Part: Photo Gallery - CLEAN VERSION
  * 
- * With modal functionality like the old version
+ * Pure HTML structure, all CSS/JS moved to external files
  */
 
 global $zzbp_current_accommodation;
@@ -13,6 +13,10 @@ if (!$accommodation) {
 }
 
 $photos = $accommodation['photos'] ?? [];
+
+// Get base URL from settings instead of hardcoded localhost
+$settings = get_option('zzbp_settings', []);
+$base_url = $settings['api_base_url'] ?? 'http://localhost:2121';
 ?>
 
 <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 mb-8">
@@ -23,10 +27,10 @@ $photos = $accommodation['photos'] ?? [];
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="photo-gallery">
             <?php foreach ($photos as $index => $photo_url): ?>
                 <?php 
-                // Fix photo URL
+                // Fix photo URL using settings base URL
                 $fixed_photo_url = $photo_url;
                 if (strpos($fixed_photo_url, 'http') !== 0 && strpos($fixed_photo_url, '/uploads/') === 0) {
-                    $fixed_photo_url = 'http://localhost:2121' . $fixed_photo_url;
+                    $fixed_photo_url = $base_url . $fixed_photo_url;
                 }
                 ?>
                 <div class="gallery-item" onclick="openPhotoModal(<?php echo $index; ?>)">
@@ -45,7 +49,7 @@ $photos = $accommodation['photos'] ?? [];
             <span class="text-sm text-gray-600">
                 <?php echo count($photos); ?> foto's
             </span>
-            <button onclick="openPhotoModal(0)" class="ml-4 text-rose-600 hover:text-rose-700 font-semibold text-sm">
+            <button onclick="openPhotoModal(0)" class="ml-4 bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-colors">
                 Bekijk alle foto's →
             </button>
         </div>
@@ -93,7 +97,7 @@ $photos = $accommodation['photos'] ?? [];
                         <?php 
                         $fixed_photo_url = $photo_url;
                         if (strpos($fixed_photo_url, 'http') !== 0 && strpos($fixed_photo_url, '/uploads/') === 0) {
-                            $fixed_photo_url = 'http://localhost:2121' . $fixed_photo_url;
+                            $fixed_photo_url = $base_url . $fixed_photo_url;
                         }
                         ?>
                         <img src="<?php echo esc_url($fixed_photo_url); ?>" 
@@ -109,111 +113,10 @@ $photos = $accommodation['photos'] ?? [];
             </div>
         </div>
         
-        <!-- JavaScript voor modal -->
-        <script>
-        // Photo Gallery Modal
-        const photos = <?php echo json_encode(array_map(function($url) {
-            return strpos($url, 'http') !== 0 && strpos($url, '/uploads/') === 0 ? 'http://localhost:2121' . $url : $url;
-        }, $photos)); ?>;
-
-        let currentPhotoIndex = 0;
-
-        function openPhotoModal(index = 0) {
-            currentPhotoIndex = index;
-            const modal = document.getElementById('photo-modal');
-            const modalImage = document.getElementById('modal-image');
-            const photoCounter = document.getElementById('photo-counter');
-            
-            if (photos.length > 0) {
-                modalImage.src = photos[currentPhotoIndex];
-                photoCounter.textContent = `${currentPhotoIndex + 1} / ${photos.length}`;
-                modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                
-                updateThumbnails();
-            }
-        }
-
-        function closePhotoModal() {
-            const modal = document.getElementById('photo-modal');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function nextPhoto() {
-            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
-            updateModalPhoto();
-        }
-
-        function previousPhoto() {
-            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
-            updateModalPhoto();
-        }
-
-        function goToPhoto(index) {
-            currentPhotoIndex = index;
-            updateModalPhoto();
-        }
-
-        function updateModalPhoto() {
-            const modalImage = document.getElementById('modal-image');
-            const photoCounter = document.getElementById('photo-counter');
-            
-            modalImage.src = photos[currentPhotoIndex];
-            photoCounter.textContent = `${currentPhotoIndex + 1} / ${photos.length}`;
-            updateThumbnails();
-        }
-
-        function updateThumbnails() {
-            const thumbnails = document.querySelectorAll('.thumbnail');
-            thumbnails.forEach((thumb, index) => {
-                if (index === currentPhotoIndex) {
-                    thumb.style.opacity = '1';
-                    thumb.style.border = '2px solid white';
-                } else {
-                    thumb.style.opacity = '0.5';
-                    thumb.style.border = 'none';
-                }
-            });
-        }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            const modal = document.getElementById('photo-modal');
-            if (modal.style.display === 'flex') {
-                if (e.key === 'ArrowRight') nextPhoto();
-                if (e.key === 'ArrowLeft') previousPhoto();
-                if (e.key === 'Escape') closePhotoModal();
-            }
-        });
-        </script>
-        
-        <!-- CSS voor gallery -->
-        <style>
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            aspect-ratio: 1;
-        }
-        
-        .gallery-item:hover {
-            transform: scale(1.02);
-        }
-        
-        .gallery-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        
-        .gallery-item:hover .gallery-image {
-            transform: scale(1.1);
-        }
-        </style>
+        <!-- Photo data for JavaScript -->
+        <script data-zzbp-photos='<?php echo json_encode(array_map(function($url) use ($base_url) {
+            return strpos($url, 'http') !== 0 && strpos($url, '/uploads/') === 0 ? $base_url . $url : $url;
+        }, $photos)); ?>'></script>
         
     <?php else: ?>
         <p class="text-gray-500 text-center py-8">Geen foto's beschikbaar</p>

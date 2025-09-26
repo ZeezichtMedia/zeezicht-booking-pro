@@ -109,6 +109,9 @@ zzbp_clean_init();
  */
 register_activation_hook(__FILE__, 'zzbp_clean_activate');
 function zzbp_clean_activate() {
+    // Load the routing class first
+    require_once ZZBP_PLUGIN_PATH . 'includes/class-zzbp-routing.php';
+    
     // Initialize routing to add rewrite rules
     $routing = new ZZBP_Routing();
     $routing->add_rewrite_rules();

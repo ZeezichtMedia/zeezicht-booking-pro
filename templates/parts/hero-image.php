@@ -16,7 +16,23 @@ if (!$accommodation) {
 <div class="container mx-auto px-4 py-6">
     <div class="relative overflow-hidden rounded-2xl group" style="height: 70vh;">
         <img 
-            src="<?php echo esc_url($accommodation['hero_image'] ?? 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); ?>" 
+            src="<?php 
+                // Try different possible image fields from API
+                $hero_image = $accommodation['primary_image'] ?? 
+                             $accommodation['hero_image'] ?? 
+                             $accommodation['featured_image'] ?? 
+                             ($accommodation['photos'][0] ?? 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+                
+                // If it's a relative path, make it absolute using the SaaS dashboard URL
+                if ($hero_image && !str_starts_with($hero_image, 'http')) {
+                    $settings = get_option('zzbp_settings', array());
+                    $dashboard_url = rtrim($settings['api_base_url'] ?? 'http://localhost:2121', '/api');
+                    $dashboard_url = rtrim($dashboard_url, '/');
+                    $hero_image = $dashboard_url . '/' . ltrim($hero_image, '/');
+                }
+                
+                echo esc_url($hero_image); 
+            ?>" 
             alt="<?php echo esc_attr($accommodation['name'] ?? 'Accommodation'); ?>"
             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         >

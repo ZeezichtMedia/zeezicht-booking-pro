@@ -34,8 +34,14 @@ class ZZBP_Api {
             $this->api_base_url = get_option('zzbp_dashboard_url', 'http://localhost:2121');
         }
         
+        // Ensure base URL has /api suffix for API calls
+        if (!empty($this->api_base_url) && !str_ends_with($this->api_base_url, '/api')) {
+            $this->api_base_url = rtrim($this->api_base_url, '/') . '/api';
+        }
+        
         // Debug logging
-        error_log("ZZBP API: Using API Key: " . substr($this->api_key, 0, 10) . "... (length: " . strlen($this->api_key) . ")");
+        error_log("ZZBP API Debug - Using API Key: " . substr($this->api_key, 0, 10) . "... (length: " . strlen($this->api_key) . ")");
+        error_log("ZZBP API Debug - Using Base URL: " . $this->api_base_url);
     }
     
     /**
@@ -46,16 +52,9 @@ class ZZBP_Api {
             return array();
         }
         
-        // Build the correct URL - remove /api suffix if present, then add the full path
-        $base_url = rtrim($this->api_base_url, '/api');
-        $base_url = rtrim($base_url, '/');
-        $url = $base_url . '/api/plugin/accommodations?' . http_build_query(array(
+        $response = wp_remote_get($this->api_base_url . '/api/plugin/accommodations?' . http_build_query(array(
             'domain' => parse_url(home_url(), PHP_URL_HOST)
-        ));
-        
-        error_log("ZZBP API: Calling URL: " . $url);
-        
-        $response = wp_remote_get($url, array(
+        )), array(
             'headers' => array(
                 'X-API-Key' => $this->api_key
             )
@@ -113,46 +112,29 @@ class ZZBP_Api {
         
         if (!$response || !isset($response['success']) || !$response['success']) {
             throw new Exception('Failed to create booking');
-        }
-        
-        return $response['data'] ?? null;
-    }
-    
-    /**
-     * Test API connection - Using working method from old plugin
      */
     public function test_connection() {
         if (!$this->api_key) {
-            return array('success' => false, 'error' => 'No API key configured');
+            error_log("ZZBP API Test: No API key configured");
+            return array('success' => false, 'message' => 'No API key configured');
         }
         
-        $response = wp_remote_post($this->api_base_url . '/api/plugin/authenticate', array(
-            'body' => json_encode(array(
-                'domain' => parse_url(home_url(), PHP_URL_HOST),
-                'plugin_version' => defined('ZZBP_VERSION') ? ZZBP_VERSION : '2.0.0'
-            )),
+        $url = $this->api_base_url . '/accommodations';
+        error_log("ZZBP API Test: Testing connection to: " . $url);
+        error_log("ZZBP API Test: Using API key: " . substr($this->api_key, 0, 10) . "...");
+        
+        $response = wp_remote_get($url, array(
             'headers' => array(
-                'Content-Type' => 'application/json',
-                'X-API-Key' => $this->api_key
+                'X-API-Key' => $this->api_key,
+                'Content-Type' => 'application/json'
             ),
             'timeout' => 30
         ));
         
         if (is_wp_error($response)) {
-            error_log('ZZBP API Test Error: ' . $response->get_error_message());
-            return array('success' => false, 'error' => $response->get_error_message());
-        }
-        
-        $body = wp_remote_retrieve_body($response);
-        $data = json_decode($body, true);
-        
-        if (!$data || !isset($data['success']) || !$data['success']) {
-            $error = $data['error'] ?? 'Unknown error';
-            error_log('ZZBP API Test Failed: ' . $error);
-            return array('success' => false, 'error' => $error);
-        }
-        
-        // Debug: Log the full response to see the structure
+            $error_message = $response->get_error_message();
+            error_log("ZZBP API Test: WP Error - " . $error_message);
+            return array('success' => false, 'message' => $error_message);
         error_log('ZZBP API Response: ' . json_encode($data, JSON_PRETTY_PRINT));
         
         return array('success' => true, 'data' => $data['property'] ?? $data['data'] ?? null);

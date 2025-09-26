@@ -2,6 +2,283 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ZeeZicht Booking Pro - Custom Styles */
+
+/* Photo Gallery Styles */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    aspect-ratio: 1;
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-image {
+    transform: scale(1.1);
+}
+
+/* Availability Calendar Styles */
+.accommodation-calendar .flatpickr-calendar.inline {
+    box-shadow: none !important;
+    border: 0 !important;
+    background: transparent !important;
+    width: 100% !important;
+}
+
+.accommodation-calendar .flatpickr-months {
+    background: #f9fafb !important;
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+    padding: 1rem !important;
+}
+
+.accommodation-calendar .flatpickr-weekdays {
+    background: #f3f4f6 !important;
+    padding: 0.5rem 0 !important;
+}
+
+/* Modern square days with rounded corners */
+.accommodation-calendar .flatpickr-day {
+    width: 40px !important;
+    height: 40px !important;
+    line-height: 40px !important;
+    border-radius: 6px !important;
+    margin: 2px !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Available dates - green background - but NOT if selected */
+.accommodation-calendar .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected):not(.startRange):not(.endRange):not(.inRange) {
+    background-color: #22C55E !important;
+    color: white !important;
+    border-color: #16A34A !important;
+}
+
+/* Available dates hover - but NOT if selected */
+.accommodation-calendar .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):not(.selected):not(.startRange):not(.endRange):not(.inRange):hover {
+    background-color: #16A34A !important;
+    color: white !important;
+    transform: scale(1.05) !important;
+}
+
+/* Disabled dates (unavailable) - dusty rose */
+.accommodation-calendar .flatpickr-day.flatpickr-disabled {
+    background-color: #E5C5C5 !important;
+    color: #8B5A5A !important;
+    opacity: 1 !important;
+    cursor: not-allowed !important;
+}
+
+/* Past dates - greyed out (higher priority than disabled) */
+.accommodation-calendar .flatpickr-day.past-date {
+    background-color: #F3F4F6 !important;
+    color: #9CA3AF !important;
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+}
+
+/* Selection overrides green - blue for selected dates (highest priority) */
+.accommodation-calendar .flatpickr-day.selected,
+.accommodation-calendar .flatpickr-day.startRange,
+.accommodation-calendar .flatpickr-day.endRange {
+    background-color: #3B82F6 !important;
+    border-color: #3B82F6 !important;
+    color: white !important;
+    transform: scale(1.05) !important;
+}
+
+/* Selected dates hover - stay blue */
+.accommodation-calendar .flatpickr-day.selected:hover,
+.accommodation-calendar .flatpickr-day.startRange:hover,
+.accommodation-calendar .flatpickr-day.endRange:hover {
+    background-color: #2563EB !important;
+    border-color: #2563EB !important;
+    color: white !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
+}
+
+.accommodation-calendar .flatpickr-day.inRange {
+    background-color: #DBEAFE !important;
+    border-color: #BFDBFE !important;
+    color: #1E40AF !important;
+    transform: none !important;
+}
+
+/* In-range hover - stay light blue */
+.accommodation-calendar .flatpickr-day.inRange:hover {
+    background-color: #BFDBFE !important;
+    border-color: #93C5FD !important;
+    color: #1E40AF !important;
+    transform: scale(1.02) !important;
+}
+
+/* Toon volgende maand dagen */
+.accommodation-calendar .flatpickr-day.nextMonthDay,
+.accommodation-calendar .flatpickr-day.prevMonthDay {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 0.4 !important;
+    color: #9CA3AF !important;
+    background-color: #F9FAFB !important;
+}
+
+/* Hover effect voor volgende/vorige maand dagen */
+.accommodation-calendar .flatpickr-day.nextMonthDay:hover,
+.accommodation-calendar .flatpickr-day.prevMonthDay:hover {
+    opacity: 0.6 !important;
+    background-color: #F3F4F6 !important;
+}
+
+/* Zorg dat alle dagen zichtbaar zijn */
+.accommodation-calendar.show-next-month-days .flatpickr-day {
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* Modal Selected Dates Styles */
+.modal-selected-dates {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background-color: #dbeafe;
+    border-radius: 0.5rem;
+    border: 1px solid #93c5fd;
+}
+
+.modal-selected-dates .text-sm {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1e3a8a;
+    margin-bottom: 0.25rem;
+}
+
+.modal-selected-dates .text-blue-700 {
+    color: #1d4ed8;
+    font-size: 0.875rem;
+}
+
+.modal-selected-dates .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.modal-selected-dates .text-xs {
+    font-size: 0.75rem;
+    color: #2563eb;
+}
+
+.modal-selected-dates button {
+    font-size: 0.75rem;
+    color: #3b82f6;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Booking Modal Styles */
+.booking-modal-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4;
+    display: none;
+}
+
+.booking-modal-overlay.active {
+    display: flex;
+}
+
+.booking-modal-container {
+    @apply bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl;
+}
+
+.booking-modal-header {
+    @apply bg-gradient-to-r from-rose-500 to-pink-600 text-white p-6;
+}
+
+.booking-step {
+    display: block;
+}
+
+.booking-step.hidden {
+    display: none;
+}
+
+/* Step Indicator Styles */
+.step-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.step-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.step-indicator.active .step-circle {
+    background-color: white;
+    color: #e11d48;
+    transform: scale(1.1);
+}
+
+.step-indicator.completed .step-circle {
+    background-color: #22c55e;
+    color: white;
+}
+
+.step-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+}
+
+.step-indicator.active .step-label {
+    color: white;
+    font-weight: 600;
+}
+
+.step-line {
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+    flex: 1;
+    margin: 0 1rem;
+    margin-top: 1.25rem;
+}
+
+/* Camping Type Selection */
+.camping-type-option input:checked + div {
+    border-color: #e11d48 !important;
+    background-color: #fdf2f8 !important;
+}
+
+/* Navigation Button Styles */
+.nav-button:hover {
+    background: rgba(255,255,255,1) !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
 /* PROFESSIONAL COMPONENT CLASSES - Debug en Fix */
 @layer components {
   /* Button Components */
